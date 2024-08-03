@@ -18,7 +18,13 @@ int echo(char *s)
 	}
 	return 0;
 }
-int cd()
+int cd(char *path)
 {
-	chdir
+		if(!path)
+			return;
+		if (!chdir(path))
+		{
+			perror(0);
+		}
+		
 }
