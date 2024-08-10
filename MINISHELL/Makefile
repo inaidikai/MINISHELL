@@ -1,12 +1,13 @@
 NAME = minishell
 
-SRC = 
+SRC = main.c parse.c signo.c
 
 OBJ = $(SRC:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -pthread
+CFLAGS = -Wall -Werror -Wextra
+LDFLAGS = -lreadline
 
 DEL = rm -rf
 
@@ -16,7 +17,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
