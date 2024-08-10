@@ -6,7 +6,7 @@
 /*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:22:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/10 17:45:12 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:10:25 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int start_prompt(void)
 	{
         
         store = getprompt();
-        read = readline("minishell");
+        read = readline(store);
         // free(store);
         if (!read)              
             break;
