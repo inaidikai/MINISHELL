@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:07:19 by inkahar           #+#    #+#             */
-/*   Updated: 2023/11/23 18:31:08 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/10 12:26:01 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }	t_list;
+
 size_t	ft_strlcpy(char *dst, const char *src, size_t d);
 size_t	ft_strlen(const char *s);
 int		ft_atoi(const char *str);
