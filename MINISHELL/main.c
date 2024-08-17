@@ -6,7 +6,7 @@
 /*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:22:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/10 18:10:25 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/17 12:33:25 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,28 @@ void handle_int(int signum)
     }
 }
 
-static int start_prompt(void)
+static int start_prompt(t_prompt pre_shell)
 {
 	char	*store;
     char    *read;
+    char **input;
+    
     signal(SIGINT, handle_int);
     signal(SIGQUIT, handle_int);
 	while (1)
 	{
-        
         store = getprompt();
         read = readline(store);
-        // free(store);
+        free(store);
         if (!read)              
             break;
-        // if (!parsing(read, prompt))
-        // {
-        //     free(read);
-        //     break;
-        // }
-        // free(read);
+        input = lexer(read);
+        if (!input)
+        {
+            free(read);
+            break;
+        }
+        free(read);
 	}
 	return (g_sig);
 }
@@ -74,7 +76,7 @@ int main(int ac, char **av, char **env)
     (void)ac;
     
     pre_shell = init_env(av, env);
-    g_sig = start_prompt();
+    g_sig = start_prompt(pre_shell);
     return (g_sig);
 }
 

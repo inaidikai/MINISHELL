@@ -5,12 +5,19 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <stdlib.h>
 # include <sys/wait.h>
 # include "libft/libft.h"
 # include <dirent.h>
 # include <sys/ioctl.h>
 
-extern int	g_sig;
+extern int g_sig;
+
+typedef enum e_rrorcode
+{
+    UNCLOSEDPARA,
+} errorcode;
+
 
 typedef struct s_prompt
 {
@@ -35,4 +42,9 @@ char	**mini_setenv(char *var, char *value, char **envp, int n);
 char	*mini_getenv(char *var, char **envp, int n);
 char	**ft_extend_matrix(char **matrix, char *new_entry);
 int	ft_strchr_i(const char *s, int c);
+char *expand_val(char *str, int i, int fq[2], t_prompt *prompt);
+char *expand_tilde(char *str, int i, int fq[2], char *home_dir);
+void chk(errorcode OPCODE);
+void *lexer(char *store);
+
 #endif
