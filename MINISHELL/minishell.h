@@ -46,5 +46,9 @@ char *expand_val(char *str, int i, int fq[2], t_prompt *prompt);
 char *expand_tilde(char *str, int i, int fq[2], char *home_dir);
 void chk(errorcode OPCODE);
 void *lexer(char *store);
+char	**exsplit(char const *s, char *set);
+char **m_replace(char ***old, char **new, int oi);
+int m_size(char **m);
+void	m_free(char ***m);
 
 #endif
