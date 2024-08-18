@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:22:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/18 13:37:25 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/18 20:23:35 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,11 @@ void handle_int(int signum)
     }
 }
 
-static int start_prompt(t_prompt pre_shell)
+static int start_prompt(t_prompt *pre_shell)
 {
 	char	*store;
     char    *read;
     char **input;
-    (void)pre_shell;
     
     signal(SIGINT, handle_int);
     signal(SIGQUIT, handle_int);
@@ -43,7 +42,9 @@ static int start_prompt(t_prompt pre_shell)
         if (!read)              
             break;
         input = lexer(read);
-        if (!input)
+        free(read);
+        pre_shell->cmds = fillnode(ex_split(input, pre_shell), 1);
+        if (!input) 
         {
             free(read);
             break;
@@ -54,8 +55,7 @@ static int start_prompt(t_prompt pre_shell)
 }
 
 
-
-static t_prompt	init_env(char **av, char **env)
+static t_prompt	init_env(char **av, char **env, t_str *var)
 {
     t_prompt pre_shell;
     char *store;
@@ -64,6 +64,7 @@ static t_prompt	init_env(char **av, char **env)
     pre_shell.cmds = NULL;
     pre_shell.env = dup_env(env);
     g_sig = 0;
+    int_var(var);
     //process pid
     pre_shell = prepare_variables(pre_shell, av);
     return (pre_shell);
@@ -74,10 +75,11 @@ static t_prompt	init_env(char **av, char **env)
 int main(int ac, char **av, char **env)
 {
     t_prompt pre_shell;
+    t_str var;
     (void)ac;
     
-    pre_shell = init_env(av, env);
-    g_sig = start_prompt(pre_shell);
+    pre_shell = init_env(av, env, &var);
+    g_sig = start_prompt(&pre_shell);
     return (g_sig);
 }
 

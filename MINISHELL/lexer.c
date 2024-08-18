@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 14:29:25 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/18 14:06:36 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/18 18:10:33 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ void *lexer(char *store)
         chk(UNCLOSEDPARA);
         return (0);
     }
+    if (!trimmed_args)
+		return ("");
     return trimmed_args;
 }
 

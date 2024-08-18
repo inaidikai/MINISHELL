@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 21:40:46 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/18 15:58:03 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/18 17:57:29 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ static void handle_split(char **av, t_prompt *prompt, int i)
     char **splitted;
 	(void)prompt;
 
-    splitted = exsplit(av[i], "<|>");
+    splitted = cmdsubsplit(av[i], "<|>");
     if (!splitted)
         return;
 
     m_replace(&av, splitted, i);
+    i += m_size(splitted) - 1;
     m_free(&splitted);
 }
 

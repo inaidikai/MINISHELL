@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_spliter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 14:28:12 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/18 14:28:22 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/18 17:49:10 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	**ft_fill_array(char **aux, char *s, char *set, int i[3])
 	return (aux);
 }
 
-char	**exsplit(char const *s, char *set)
+char	**cmdsubsplit(char const *s, char *set)
 {
 	char	**aux;
 	int		nwords;
