@@ -6,7 +6,7 @@
 /*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 14:29:25 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/17 21:35:12 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/18 14:06:36 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,10 @@ void *lexer(char *store)
     trimmed_args = ft_cmdtrim(store, " ");
     free(store);
     if (trimmed_args == NULL)
+    {
         chk(UNCLOSEDPARA);
-    return 0;
+        return (0);
+    }
     return trimmed_args;
 }
 
