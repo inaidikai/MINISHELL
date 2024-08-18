@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = prompt.c prepare_variables.c prepare_shell.c matrx.c main.c err.c
+SRC = prompt.c prepare_variables.c prepare_shell.c matrx.c main.c errno.c expand_path.c expand_val.c  lexer.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:22:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/17 12:33:25 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/18 13:37:25 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int start_prompt(t_prompt pre_shell)
 	char	*store;
     char    *read;
     char **input;
+    (void)pre_shell;
     
     signal(SIGINT, handle_int);
     signal(SIGQUIT, handle_int);
