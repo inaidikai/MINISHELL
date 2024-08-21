@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 21:40:46 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/18 17:57:29 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/21 12:28:24 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,3 @@ char **ex_split(char **av, t_prompt *prompt)
     }
     return av;
 }
-
-
-
