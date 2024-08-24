@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fillnode.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/24 13:41:43 by inkahar           #+#    #+#             */
+/*   Updated: 2024/08/24 22:21:41 by inkahar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "minishell.h"
 
 int dup_node(char **av)
@@ -18,7 +31,7 @@ int dup_node(char **av)
     arr[i] = '/0';
     return(arr);
 }
-static t_mini	*get_params(t_mini *node, char **a[2], int *i)
+static t_str	*get_params(t_str *node, char **a[2], int *i)
 {
 	if (a[0][*i])
 	{
@@ -35,12 +48,12 @@ static t_mini	*get_params(t_mini *node, char **a[2], int *i)
 			node->full_cmd = ft_extend_matrix(node->full_cmd, a[1][*i]);
 		else
 		{
-			mini_perror(PIPENDERR, NULL, 2);
+			errno(PIPENDERR, NULL, 2);
 			*i = -2;
 		}
 		return (node);
 	}
-	mini_perror(PIPENDERR, NULL, 2);
+	errno(PIPENDERR, NULL, 2);
 	*i = -2;
 	return (node);
 }
@@ -49,10 +62,11 @@ int gettrimmed(char **av)
 {
     char **temp = NULL;
     char *arr;
+    int j  =0;
     temp = dup_node(av);
-    while(temp[i])
+    while(temp[j])
     {
-        arr = clean_trim(temp[i], 0 , 0);
+        arr = clean_trim(temp[j], 0 , 0);
         free(temp[j]);
         temp[j] = arr;
     }
@@ -61,8 +75,8 @@ int gettrimmed(char **av)
 static t_list	*stop_fill(t_list *cmds, char **args, char **temp)
 {
 	ft_lstclear(&cmds, free_content);
-	ft_free_matrix(&temp);
-	ft_free_matrix(&args);
+	m_free(&temp);
+	m_free(&args);
 	return (NULL);
 }
 
@@ -79,11 +93,11 @@ int fillnode(char **av, int i)
         if( i == 0|| (av[i][0] == '|' && av[i + 1] && av[i+1][0]))
         {
             i+= av[i][0] == '|';
-            ft_lstadd_back(&cmd[0], ft_lstnew(int_var()));
+            ft_lstadd_back(&cmd[0], ft_lstnew(int_var));
             cmd[1] = ft_lstlast(cmd[0]);
         }
-        temp[0] = args;
-        cmd[1]->content = get_para(cmd[1]->content, temp, &i);
+        temp[0] = av;
+        cmd[1]->content = get_params(cmd[1]->content, temp, &i);
         if (i < 0)
 			return (stop_fill(cmd[0], av, temp[1]));
 		if (!av[i])

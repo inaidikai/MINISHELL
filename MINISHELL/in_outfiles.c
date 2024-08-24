@@ -25,7 +25,7 @@ int	get_fd(int oldfd, char *path, int flags[2])
 	return (fd);
 }
 
-t_mini	*get_outfile1(t_mini *node, char **args, int *i)
+t_str	*get_outfile1(t_str *node, char **args, int *i)
 {
 	char	*nl;
 	int		flags[2];
@@ -42,15 +42,15 @@ t_mini	*get_outfile1(t_mini *node, char **args, int *i)
 		if (node->outfile != -1)
 		{
 			ft_putendl_fd(nl, 2);
-			g_status = 2;
+			g_sig = 2;
 		}
 		else
-			g_status = 1;
+			g_sig = 1;
 	}
 	return (node);
 }
 
-t_mini	*get_outfile2(t_mini *node, char **args, int *i)
+t_str	*get_outfile2(t_str *node, char **args, int *i)
 {
 	char	*nl;
 	int		flags[2];
@@ -67,15 +67,15 @@ t_mini	*get_outfile2(t_mini *node, char **args, int *i)
 		if (node->outfile != -1)
 		{
 			ft_putendl_fd(nl, 2);
-			g_status = 2;
+			g_sig = 2;
 		}
 		else
-			g_status = 1;
+			g_sig = 1;
 	}
 	return (node);
 }
 
-t_mini	*get_infile1(t_mini *node, char **args, int *i)
+t_str	*get_infile1(t_str *node, char **args, int *i)
 {
 	char	*nl;
 	int		flags[2];
@@ -92,15 +92,15 @@ t_mini	*get_infile1(t_mini *node, char **args, int *i)
 		if (node->infile != -1)
 		{
 			ft_putendl_fd(nl, 2);
-			g_status = 2;
+			g_sig = 2;
 		}
 		else
-			g_status = 1;
+			g_sig = 1;
 	}
 	return (node);
 }
 
-t_mini	*get_infile2(t_mini *node, char **args, int *i)
+t_str	*get_infile2(t_str *node, char **args, int *i)
 {
 	char	*aux[2];
 	char	*nl;
@@ -123,7 +123,7 @@ t_mini	*get_infile2(t_mini *node, char **args, int *i)
 		if (node->infile != -1)
 		{
 			ft_putendl_fd(nl, 2);
-			g_status = 2;
+			g_sig = 2;
 		}
 	}
 	return (node);
