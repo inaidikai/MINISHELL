@@ -52,5 +52,6 @@ int m_size(char **m);
 void	m_free(char ***m);
 char **ex_split(char **av, t_prompt *prompt);
 void int_var(t_str *var);
+void handle_int(int signum);
  
 #endif
