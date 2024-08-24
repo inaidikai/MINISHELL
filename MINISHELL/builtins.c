@@ -41,6 +41,44 @@ int	handle_builtin(t_prompt *prompt, t_list *cmd, int *is_exit, int n)
 	return (g_sig);
 }
 
+int	check_builtins(t_str *s)
+{
+	int		len;
+
+	if (!s->full_cmd)
+		return (0);
+	if ((s->full_cmd && ft_strchr(*s->full_cmd, '/')) || (s->full_path && \
+		ft_strchr(s->full_path, '/')))
+		return (0);
+	len = ft_strlen(*s->full_cmd);
+
+	if (!ft_strncmp(*s->full_cmd, "echo", len) && len == 4)
+		return (1);
+	if (!ft_strncmp(*s->full_cmd, "exit", len) && len == 4)
+		return (1);
+	if (!ft_strncmp(*s->full_cmd, "env", len) && len == 3)
+		return (1);
+	if (!ft_strncmp(*s->full_cmd, "cd", len) && len == 2)
+		return (1);
+	if (!ft_strncmp(*s->full_cmd, "unset", len) && len == 5)
+		return (1);
+	if (!ft_strncmp(*s->full_cmd, "export", len) && len == 6)
+		return (1);
+	if (!ft_strncmp(*s->full_cmd, "pwd", len) && len == 3)
+		return (1);
+	return (0);
+}
+
+int	mini_pwd(void)
+{
+	char	*store;
+
+	store = getcwd(NULL, 0);
+	ft_putendl_fd(store, 1);
+	free(store);
+	return (0);
+}
+
 int ft_echo(t_list *cmd)
 {
     int nl;
