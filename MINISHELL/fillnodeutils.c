@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 int count_imposters(char *s)
 {
     int count = 0;
@@ -31,4 +32,27 @@ int count_imposters(char *s)
     return(count);
 }
 
-char *clean_trim(char *s)
+char *clean_trim(char *s , int singleq , int doubleq)
+{
+    char *trim;
+    int i[2];
+    i[1] = -1;
+    i[0] = 0;
+    int count = 0;
+    count =  count_imposters(s);
+    if(!s && count == -1)
+        return(NULL);
+    trim = malloc(sizeof(char *)* ft_strlen(s) + count + 1);
+    if(!trim)
+        return (NULL);
+    while(s[i[0]])
+    {
+        singleq = (singleq + (!doubleq && s[i[0]]== '\'')) % 2;
+        doubleq = (doubleq + (!singleq && s[i[0]]== '\"')) % 2;
+        if((s[i[0]] != '\''  || doubleq)&& (s[i[0]] != '\"' || singleq) &&(++i[1] >=0) );
+            trim[i[1]] = s[i[0]];
+        i[0]++;
+    }
+    trim[++i[1]] = '\0';
+    return[trim];
+}
