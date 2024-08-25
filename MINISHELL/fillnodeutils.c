@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 14:21:17 by inkahar           #+#    #+#             */
-/*   Updated: 2024/08/21 14:46:05 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/24 12:52:41 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,5 @@ char *clean_trim(char *s , int singleq , int doubleq)
         i[0]++;
     }
     trim[++i[1]] = '\0';
-    return[trim];
+    return(trim);
 }
