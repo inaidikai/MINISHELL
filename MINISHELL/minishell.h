@@ -18,6 +18,9 @@ typedef enum e_rrorcode
     UNCLOSEDPARA,
 } errorcode;
 
+# define READ_END 0
+# define WRITE_END 1
+
 
 typedef struct s_prompt
 {
