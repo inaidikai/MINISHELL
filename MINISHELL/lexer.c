@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 14:29:25 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/18 18:10:33 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/24 14:14:44 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,10 @@ static char    **ft_cmdtrim(char const *s, char *set)
     return (store);
 }
 
-void *lexer(char *store)
+void *lexer(char *store, t_prompt *p)
 {
     char **trimmed_args;
+    t_str *list;
     
     if (store[0] != '\0')
         add_history(store);
@@ -104,6 +105,14 @@ void *lexer(char *store)
     }
     if (!trimmed_args)
 		return ("");
-    return trimmed_args;
+    p = parsing(trimmed_args, p);
+    	if (p && p->cmds)
+		list = p->cmds->content;
+	if (p && p->cmds && list && list->full_cmd && ft_lstsize(p->cmds) == 1)
+		p->env = mini_setenv("_", list->full_cmd[m_size(list->full_cmd) - 1], \
+			p->env, 1);
+	if (p && p->cmds)
+		ft_lstclear(&p->cmds, free_content);
+	return (p);
 }
 

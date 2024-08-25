@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:22:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/18 20:23:35 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/24 13:33:52 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int g_sig;
+
 
 
 void handle_int(int signum)

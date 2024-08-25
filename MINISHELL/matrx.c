@@ -6,13 +6,13 @@
 /*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 16:38:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/18 15:56:50 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/24 13:13:00 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**ft_extend_matrix(char **matrix, char *new_entry)
+char	**m_exdup(char **matrix, char *new_entry)
 {
 	int		i;
 	char	**new_matrix;
