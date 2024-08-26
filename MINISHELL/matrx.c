@@ -6,11 +6,29 @@
 /*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 16:38:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/24 13:13:00 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/26 08:14:23 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	m_put(char **m, int nl, int fd)
+{
+	int	i;
+	int	count;
+
+	count = 0;
+	i = 0;
+	while (m && m[i])
+	{
+		if (nl)
+			count += ft_putendl_fd(m[i], fd);
+		else
+			count += ft_putstr_fd(m[i], fd);
+		i++;
+	}
+	return (count);
+}
 
 char	**m_exdup(char **matrix, char *new_entry)
 {

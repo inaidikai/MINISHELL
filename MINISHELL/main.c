@@ -6,7 +6,7 @@
 /*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:22:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/24 13:33:52 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/26 08:15:59 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,6 @@
 
 int g_sig;
 
-
-
-void handle_int(int signum)
-{
-    if(signum == SIGINT)
-    {
-        g_sig =  1;
-        write(1, "\n", 1);
-        rl_on_new_line();
-        rl_redisplay();
-    }
-}
 
 static int start_prompt(t_prompt *pre_shell)
 {
@@ -54,7 +42,25 @@ static int start_prompt(t_prompt *pre_shell)
 	}
 	return (g_sig);
 }
+static void	start_process(t_prompt *p)
+{
+	pid_t	pid;
 
+	pid = fork();
+	if (pid < 0)
+	{
+		errno(ERR_FORK, NULL, 1);
+		m_free(&p->env);
+		exit(1);
+	}
+	if (!pid)
+	{
+		m_free(&p->env);
+		exit(1);
+	}
+	waitpid(pid, NULL, 0);
+	p->pid = pid - 1;
+}
 
 static t_prompt	init_env(char **av, char **env, t_str *var)
 {
@@ -66,7 +72,7 @@ static t_prompt	init_env(char **av, char **env, t_str *var)
     pre_shell.env = dup_env(env);
     g_sig = 0;
     int_var(var);
-    //process pid
+    start_process(&prompt);
     pre_shell = prepare_variables(pre_shell, av);
     return (pre_shell);
     

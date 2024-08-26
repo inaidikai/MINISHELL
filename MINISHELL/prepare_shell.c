@@ -6,7 +6,7 @@
 /*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 12:30:38 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/10 16:41:02 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/26 08:05:01 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	**mini_setenv(char *var, char *value, char **envp, int n)
 		}
 		i++;
 	}
-	envp = ft_extend_matrix(envp, new_entry);
+	envp = m_exdup(envp, new_entry);
 	free(new_entry);
 	return (envp);
 }

@@ -19,7 +19,13 @@ typedef enum e_rrorcode
 	NDIR, 
 	NPERM,
 	PIPENDERR,
-	PERR, 
+	PERR,
+	NO_CMD,
+	CHECK_DIR,
+	ERR_PIPE,
+	ERR_FORK,
+	ERR_DUP,
+
 } errorcode;
 
 # define READ_END 0
@@ -51,7 +57,7 @@ char	**ft_extend_matrix(char **matrix, char *new_entry);
 int	ft_strchr_i(const char *s, int c);
 char *expand_val(char *str, int i, int fq[2], t_prompt *prompt);
 char *expand_tilde(char *str, int i, int fq[2], char *home_dir);
-void	errno(errorcode OPCODE, char *s, int flag);
+void *errno(errorcode OPCODE, char *s, int flag)
 void	*lexer(char *store);
 char	**cmdsubsplit(char const *s, char *set);
 char **m_replace(char ***old, char **new, int oi);

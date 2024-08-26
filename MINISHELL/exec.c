@@ -6,7 +6,7 @@
 /*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 22:43:25 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/25 17:27:25 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/26 07:47:53 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	*find_cmd(char **e_path, char *cmd, char *full_path)
 	return (full_path);
 }
 
-static DIR	*try_open_dir(char *cmd)
+static DIR	*dir_open(char *cmd)
 {
 	if (cmd)
 		return (opendir(cmd));
@@ -70,7 +70,7 @@ static void	handle_full_cmd(t_str *n, char ***splits)
 static DIR	*check_cmd(t_prompt *prompt, t_list *cmd, char ***splits, char *path)
 {
 	t_str	*n = cmd->content;
-	DIR		*dir = try_open_dir(*n->full_cmd);
+	DIR		*dir = dir_open(*n->full_cmd);
 
 	if (n && n->full_cmd && ft_strchr(*n->full_cmd, '/') && !dir)
 		handle_full_cmd(n, splits);
@@ -83,7 +83,7 @@ static DIR	*check_cmd(t_prompt *prompt, t_list *cmd, char ***splits, char *path)
 			n->full_path = find_cmd(*splits, *n->full_cmd, n->full_path);
 		}
 		if (!n->full_path || !n->full_cmd[0] || !n->full_cmd[0][0])
-			mini_perror(NCMD, *n->full_cmd, 127);
+			errno(NO_CMD, *n->full_cmd, 127);
 	}
 	return (dir);
 }
@@ -112,7 +112,7 @@ void	handle_cmd(t_prompt *prompt, t_list *cmd, char **paths, char *path)
 	}
 	if (dir)
 		closedir(dir);
-	ft_free_matrix(paths);
+	m_free(paths);
 }
 
 static DIR *check_dir(t_str *info)
@@ -125,7 +125,7 @@ static DIR *check_dir(t_str *info)
 static void dir_error(t_str *info)
 {
 	if (info && info->full_cmd)
-		mini_perror(IS_DIR, *info->full_cmd, 126);
+		errno(CHECK_DIR, *info->full_cmd, 126);
 }
 
 static void path_errors(t_str *info)
@@ -140,11 +140,33 @@ static void path_errors(t_str *info)
 }
 
 
-void *exec(t_prompt *prompt, t_list *cmd)
+static void set_redir(t_list *cmd, int fd[2])
 {
-    int file[2];
+    if (cmd->next && !((t_str *)cmd->next->content)->infile)
+        ((t_str *)cmd->next->content)->infile = fd[READ_END];
+    else
+        close(fd[READ_END]);
+}
 
-    handle_cmd(prompt, cmd,NULL, NULL);
-    //CHECK
+static void close_files(t_list *cmd)
+{
+    if (((t_str *)cmd->content)->infile > 2)
+        close(((t_str *)cmd->content)->infile);
+    if (((t_str *)cmd->content)->outfile > 2)
+        close(((t_str *)cmd->content)->outfile);
+}
 
+void *exec_cmd(t_prompt *prompt, t_list *cmd_list)
+{
+    int fd[2];
+
+    handle_cmd(prompt, cmd_list, NULL, NULL);
+    if (pipe(fd) == -1)
+        return (errno(ERR_PIPE, NULL, 1));
+    if (!check_exec(prompt, cmd_list, fd))
+        return (NULL);
+    close(fd[WRITE_END]);
+    set_redir(cmd_list, fd);
+    close_files(cmd_list);
+    return (NULL);
 }
