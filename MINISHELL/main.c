@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:22:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/24 13:33:52 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/26 07:28:29 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void handle_int(int signum)
     }
 }
 
-static int start_prompt(t_prompt *pre_shell)
+static int start_prompt(t_prompt *p)
 {
 	char	*store;
     char    *read;
@@ -42,9 +42,8 @@ static int start_prompt(t_prompt *pre_shell)
         free(store);
         if (!read)              
             break;
-        input = lexer(read);
+        input = lexer(read, p);
         free(read);
-        pre_shell->cmds = fillnode(ex_split(input, pre_shell), 1);
         if (!input) 
         {
             free(read);

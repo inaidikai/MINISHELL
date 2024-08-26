@@ -2,6 +2,7 @@
 void errno(errorcode OPCODE, char *s, int flag)
 {
 	flag = g_sig;
+	(void)*s; 
 
 	if(OPCODE == UNCLOSEDPARA)
 		printf("%s", "sister u put unclosed params\n");
