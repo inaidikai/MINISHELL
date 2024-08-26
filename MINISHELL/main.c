@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:22:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/26 07:28:29 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/26 09:53:53 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,25 @@ static int start_prompt(t_prompt *p)
 	}
 	return (g_sig);
 }
+static void	start_process(t_prompt *p)
+{
+	pid_t	pid;
 
+	pid = fork();
+	if (pid < 0)
+	{
+		errno(ERR_FORK, NULL, 1);
+		m_free(&p->env);
+		exit(1);
+	}
+	if (!pid)
+	{
+		m_free(&p->env);
+		exit(1);
+	}
+	waitpid(pid, NULL, 0);
+	p->pid = pid - 1;
+}
 
 static t_prompt	init_env(char **av, char **env, t_str *var)
 {
@@ -65,7 +83,7 @@ static t_prompt	init_env(char **av, char **env, t_str *var)
     pre_shell.env = dup_env(env);
     g_sig = 0;
     int_var(var);
-    //process pid
+    start_process(&prompt);
     pre_shell = prepare_variables(pre_shell, av);
     return (pre_shell);
     

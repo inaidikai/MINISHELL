@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/03 18:31:25 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/04 14:38:21 by aymohamm         ###   ########.fr       */
+/*   Created: 2024/08/26 07:22:09 by aymohamm          #+#    #+#             */
+/*   Updated: 2024/08/26 08:16:05 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.c"
 
-#include <stdio.h>
-int	main(int ac, char **av, char **ev)
+
+void handle_int(int signum)
 {
-	int	i;
+    if(signum == SIGINT)
+    {
+        g_sig =  1;
+        write(1, "\n", 1);
+        rl_on_new_line();
+        rl_redisplay();
+    }
+}
 
-	(void)ac;
-	(void)av;
-	i = -1;
-	if (!ev)
-		printf("\n");
-	while (ev[++i])
-		printf("%s\n", ev[i]);
-	return (0);
+void reset_signals_to_default(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

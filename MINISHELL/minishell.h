@@ -19,8 +19,17 @@ typedef enum e_rrorcode
 	NDIR, 
 	NPERM,
 	PIPENDERR,
-	PERR, 
+	PERR,
+	NO_CMD,
+	CHECK_DIR,
+	ERR_PIPE,
+	ERR_FORK,
+	ERR_DUP,
+
 } errorcode;
+
+# define READ_END 0
+# define WRITE_END 1
 
 
 typedef struct s_prompt
