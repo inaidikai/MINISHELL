@@ -59,7 +59,7 @@ char		**m_exdup(char **matrix, char *new_entry);
 int			ft_strchr_i(const char *s, int c);
 char 		*expand_val(char *str, int i, int fq[2], t_prompt *prompt);
 char 		*expand_tilde(char *str, int i, int fq[2], char *home_dir);
-void		errno(errorcode OPCODE, char *s, int flag);
+void *errno(errorcode OPCODE, char *s, int flag);
 void		*lexer(char *store, t_prompt *p);
 char		**cmdsubsplit(char const *s, char *set);
 char 		**m_replace(char ***old, char **new, int oi);
@@ -89,9 +89,11 @@ void handle_int(int signum);
 void *exec_cmd(t_prompt *prompt, t_list *cmd_list);
 int len_count(char *s, char c);
 int cmd_echo(t_list *cmd);
-int	mini_pwd(void);
+int	cmd_pwd(void);
 int	check_builtins(t_str *s);
 int	handle_builtin(t_prompt *prompt, t_list *cmd, int *is_exit, int n);
+int	m_put(char **m, int nl, int fd);
+void reset_signals_to_default(void);
 
 void	*check_exec(t_prompt *prompt, t_list *cmd, int fd[2]);
 

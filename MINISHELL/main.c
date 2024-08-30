@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:22:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/26 09:59:21 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/30 20:43:17 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,6 @@
 
 int g_sig;
 
-
-
-void handle_int(int signum)
-{
-    if(signum == SIGINT)
-    {
-        g_sig =  1;
-        write(1, "\n", 1);
-        rl_on_new_line();
-        rl_redisplay();
-    }
-}
 
 static int start_prompt(t_prompt *p)
 {

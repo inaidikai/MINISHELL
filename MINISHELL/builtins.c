@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 19:47:12 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/30 14:42:47 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/30 20:18:09 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	check_builtins(t_str *s)
 	return (0);
 }
 
-int	mini_pwd(void)
+int	cmd_pwd(void)
 {
 	char	*store;
 

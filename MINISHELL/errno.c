@@ -1,5 +1,5 @@
 #include "minishell.h"
-void errno(errorcode OPCODE, char *s, int flag)
+void *errno(errorcode OPCODE, char *s, int flag)
 {
 	flag = g_sig;
 	(void)*s; 
@@ -24,5 +24,5 @@ void errno(errorcode OPCODE, char *s, int flag)
 		printf("%s", "minishell: dup2 failed\n");
 	else if (OPCODE == NOFILE_DIR)
 		printf("%s", "minishell: SEROFR");
-	
+	return (NULL);
 }   

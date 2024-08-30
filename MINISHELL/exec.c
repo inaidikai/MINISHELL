@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 22:43:25 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/30 18:09:53 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/30 20:16:03 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,18 @@ static char	*con_cmdpath(char *path, char *cmd)
 	free(t);
 	return (full_path);
 }
-static DIR *check_dir(t_str *info)
-{
-	if (info && info->full_cmd)
-		return opendir(*info->full_cmd);
-	return NULL;
-}
+// static DIR *check_dir(t_str *info)
+// {
+// 	if (info && info->full_cmd)
+// 		return opendir(*info->full_cmd);
+// 	return NULL;
+// }
 
-static void dir_error(t_str *info)
-{
-	if (info && info->full_cmd)
-		errno(CHECK_DIR, *info->full_cmd, 126);
-}
+// static void dir_error(t_str *info)
+// {
+// 	if (info && info->full_cmd)
+// 		errno(CHECK_DIR, *info->full_cmd, 126);
+// }
 static char	*find_cmd(char **e_path, char *cmd, char *full_path)
 {
 	int		i;
@@ -98,42 +98,42 @@ static DIR	*check_cmd(t_prompt *prompt, t_list *cmd, char ***splits, char *path)
 	}
 	return (dir);
 }
-static void path_errors(t_str *info)
-{
-	if (info && info->full_path)
-	{
-		if (access(info->full_path, F_OK) == -1)
-			errno(NDIR, info->full_path, 127);
-		else if (access(info->full_path, X_OK) == -1)
-			errno(NPERM, info->full_path, 126);
-	}
-}
-void	handle_cmd(t_prompt *prompt, t_list *cmd, char **paths, char *path)
-{
-	t_str	*info;
-	DIR		*dir;
+// static void path_errors(t_str *info)
+// {
+// 	if (info && info->full_path)
+// 	{
+// 		if (access(info->full_path, F_OK) == -1)
+// 			errno(NDIR, info->full_path, 127);
+// 		else if (access(info->full_path, X_OK) == -1)
+// 			errno(NPERM, info->full_path, 126);
+// 	}
+// }
+// void	handle_cmd(t_prompt *prompt, t_list *cmd, char **paths, char *path)
+// {
+// 	t_str	*info;
+// 	DIR		*dir;
 
-	info = cmd->content;
-	dir = check_dir(info);
-	if (!check_builtins(info))
-	{
-		if (dir)
-		{
-			dir_error(info);
-		}
-		else
-		{
-			path = mini_getenv("PATH", prompt->env, 4);
-			*paths = ft_split(path, ':');
-			free(path);
-			info->full_path = find_cmd(*paths, *info->full_cmd, info->full_path);
-			path_errors(info);
-		}
-	}
-	if (dir)
-		closedir(dir);
-	m_free(paths);
-}
+// 	info = cmd->content;
+// 	dir = check_dir(info);
+// 	if (!check_builtins(info))
+// 	{
+// 		if (dir)
+// 		{
+// 			dir_error(info);
+// 		}
+// 		else
+// 		{
+// 			path = mini_getenv("PATH", prompt->env, 4);
+// 			paths = ft_split(path, ':');
+// 			free(path);
+// 			info->full_path = find_cmd(paths, *info->full_cmd, info->full_path);
+// 			path_errors(info);
+// 		}
+// 	}
+// 	if (dir)
+// 		closedir(dir);
+// 	m_free(&paths);
+// }
 
 
 
@@ -160,7 +160,7 @@ void *exec_cmd(t_prompt *prompt, t_list *cmd_list)
 {
     int fd[2];
 
-    handle_cmd(prompt, cmd_list, NULL, NULL);
+    check_cmd(prompt, cmd_list, NULL, NULL);
     if (pipe(fd) == -1)
         return (errno(ERR_PIPE, NULL, 1));
     if (!check_exec(prompt, cmd_list, fd))
