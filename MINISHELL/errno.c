@@ -22,4 +22,4 @@ void *errno(errorcode OPCODE, char *s, int flag)
 	else if (OPCODE == ERR_DUP)
 		printf("%s", "minishell: dup2 failed\n");
 	
-}
+}   
