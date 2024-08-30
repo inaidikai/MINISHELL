@@ -23,7 +23,7 @@ char *get_here_str(char *str[2],size_t len, char *limit , char *caution )
         free(str[0]);
         return(str[1]);
 }
-int get_here_doc(char *str, char *aux)
+int get_here_doc(char *str[2], char *aux[2])
  {
     int fd[2];
     g_sig = 0;

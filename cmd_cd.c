@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_cd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:03:19 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/26 11:23:28 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/24 15:49:46 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void handle_err(char **s[2])
 	if (s[0][1] && dir && access(s[0][1], F_OK) != -1)
 		chdir(s[0][1]);
 	else if (s[0][1] && access(s[0][1], F_OK) == -1)
-		errno(NOFILE_DIR, s[0][1], 1);
+		err_message(NOFILE_DIR, s[0][1], 1);
 	else if (s[0][1])
-		errno(NOTDIR, s[0][1], 1);
+		err_message(NOTDIR, s[0][1], 1);
 	if (s[0][1] && dir)
 		closedir(dir);
 }

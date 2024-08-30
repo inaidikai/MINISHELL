@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 14:29:25 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/26 10:03:29 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/24 14:14:44 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void *lexer(char *store, t_prompt *p)
     free(store);
     if (trimmed_args == NULL)
     {
-        errno(UNCLOSEDPARA, NULL, 0);
+        chk(UNCLOSEDPARA);
         return (0);
     }
     if (!trimmed_args)

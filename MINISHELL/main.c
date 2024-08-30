@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:22:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/26 08:15:59 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/26 09:59:21 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,19 @@
 int g_sig;
 
 
-static int start_prompt(t_prompt *pre_shell)
+
+void handle_int(int signum)
+{
+    if(signum == SIGINT)
+    {
+        g_sig =  1;
+        write(1, "\n", 1);
+        rl_on_new_line();
+        rl_redisplay();
+    }
+}
+
+static int start_prompt(t_prompt *p)
 {
 	char	*store;
     char    *read;
@@ -30,9 +42,8 @@ static int start_prompt(t_prompt *pre_shell)
         free(store);
         if (!read)              
             break;
-        input = lexer(read);
+        input = lexer(read, p);
         free(read);
-        pre_shell->cmds = fillnode(ex_split(input, pre_shell), 1);
         if (!input) 
         {
             free(read);
@@ -72,7 +83,7 @@ static t_prompt	init_env(char **av, char **env, t_str *var)
     pre_shell.env = dup_env(env);
     g_sig = 0;
     int_var(var);
-    start_process(&prompt);
+    start_process(&pre_shell);
     pre_shell = prepare_variables(pre_shell, av);
     return (pre_shell);
     
