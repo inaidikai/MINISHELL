@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 22:43:25 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/26 07:47:53 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/30 18:09:53 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,18 @@ static char	*con_cmdpath(char *path, char *cmd)
 	free(t);
 	return (full_path);
 }
+static DIR *check_dir(t_str *info)
+{
+	if (info && info->full_cmd)
+		return opendir(*info->full_cmd);
+	return NULL;
+}
 
+static void dir_error(t_str *info)
+{
+	if (info && info->full_cmd)
+		errno(CHECK_DIR, *info->full_cmd, 126);
+}
 static char	*find_cmd(char **e_path, char *cmd, char *full_path)
 {
 	int		i;
@@ -63,7 +74,7 @@ static void	handle_full_cmd(t_str *n, char ***splits)
 	if (n->full_cmd[0])
 	{
 		free(n->full_cmd[0]);
-		n->full_cmd[0] = ft_strdup(splits[0][ft_matrixlen(*splits) - 1]);
+		n->full_cmd[0] = ft_strdup(splits[0][m_size(*splits) - 1]);
 	}
 }
 
@@ -87,7 +98,16 @@ static DIR	*check_cmd(t_prompt *prompt, t_list *cmd, char ***splits, char *path)
 	}
 	return (dir);
 }
-
+static void path_errors(t_str *info)
+{
+	if (info && info->full_path)
+	{
+		if (access(info->full_path, F_OK) == -1)
+			errno(NDIR, info->full_path, 127);
+		else if (access(info->full_path, X_OK) == -1)
+			errno(NPERM, info->full_path, 126);
+	}
+}
 void	handle_cmd(t_prompt *prompt, t_list *cmd, char **paths, char *path)
 {
 	t_str	*info;
@@ -95,7 +115,7 @@ void	handle_cmd(t_prompt *prompt, t_list *cmd, char **paths, char *path)
 
 	info = cmd->content;
 	dir = check_dir(info);
-	if (!is_builtin(info))
+	if (!check_builtins(info))
 	{
 		if (dir)
 		{
@@ -115,29 +135,9 @@ void	handle_cmd(t_prompt *prompt, t_list *cmd, char **paths, char *path)
 	m_free(paths);
 }
 
-static DIR *check_dir(t_str *info)
-{
-	if (info && info->full_cmd)
-		return opendir(*info->full_cmd);
-	return NULL;
-}
 
-static void dir_error(t_str *info)
-{
-	if (info && info->full_cmd)
-		errno(CHECK_DIR, *info->full_cmd, 126);
-}
 
-static void path_errors(t_str *info)
-{
-	if (info && info->full_path)
-	{
-		if (access(info->full_path, F_OK) == -1)
-			mini_perror(NDIR, info->full_path, 127);
-		else if (access(info->full_path, X_OK) == -1)
-			mini_perror(NPERM, info->full_path, 126);
-	}
-}
+
 
 
 static void set_redir(t_list *cmd, int fd[2])

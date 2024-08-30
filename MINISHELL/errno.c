@@ -1,12 +1,12 @@
 #include "minishell.h"
-void *errno(errorcode OPCODE, char *s, int flag)
+void errno(errorcode OPCODE, char *s, int flag)
 {
 	flag = g_sig;
 	(void)*s; 
 
 	if(OPCODE == UNCLOSEDPARA)
 		printf("%s", "sister/brother u put unclosed params\n");
-	if(OPCODE == NDIR)
+	if(OPCODE == NOTDIR)
 		printf("%s", "no directory");
 	if(OPCODE == NPERM)
 		printf("%s", "no PERMISSION");
@@ -22,5 +22,7 @@ void *errno(errorcode OPCODE, char *s, int flag)
 		printf("%s", "minishell: fork failed\n");
 	else if (OPCODE == ERR_DUP)
 		printf("%s", "minishell: dup2 failed\n");
+	else if (OPCODE == NOFILE_DIR)
+		printf("%s", "minishell: SEROFR");
 	
 }
