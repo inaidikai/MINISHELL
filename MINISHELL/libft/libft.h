@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:07:19 by inkahar           #+#    #+#             */
-/*   Updated: 2024/08/10 12:26:01 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/30 08:05:48 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
-void	ft_putendl_fd(char *s, int fd);
+int	ft_putstr_fd(char *s, int fd);
+int	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int nb, int fd);
 char	*ft_itoa(int n);
 t_list	*ft_lstnew(void *content);
@@ -69,4 +69,5 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 char	**ft_split(char const *s, char c);
 int		ft_lstsize(t_list *lst);
+int ft_isspace(int c);
 #endif

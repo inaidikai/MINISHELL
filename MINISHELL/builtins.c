@@ -1,17 +1,32 @@
-+9/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 19:47:12 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/23 17:02:23 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/31 15:14:03 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int len_count(char *s, char c)
+{
+ int count;
+
+    if (!s)
+        return (0);
+    count = 0;
+    while (*s)
+    {
+        if (*s == c)
+            count++;
+        s++;
+    }
+    return (count);
+}
 int	handle_builtin(t_prompt *prompt, t_list *cmd, int *is_exit, int n)
 {
 	char	**a;
@@ -69,7 +84,7 @@ int	check_builtins(t_str *s)
 	return (0);
 }
 
-int	mini_pwd(void)
+int	cmd_pwd(void)
 {
 	char	*store;
 
@@ -79,35 +94,31 @@ int	mini_pwd(void)
 	return (0);
 }
 
-int ft_echo(t_list *cmd)
+int cmd_echo(t_list *cmd)
 {
-    int nl;
-    int i;
-    char **av;
-    t_str *cmd_data;
+ 	int     newline;
+    int     i[2];
+    char    **argv;
+    t_str  *node;
 
-    nl = 1; 
-    i = 0;
-    cmd_data = (t_str *)cmd->content;
-    av = cmd_data->full_cmd;
-
-    while (av && av[i])
+    i[0] = 0;
+    i[1] = 0;
+    newline = 1;
+    node = cmd->content;
+    argv = node->full_cmd;
+    while (argv && argv[++i[0]])
     {
-        if (i == 0 && !ft_strncmp(av[i], "-n", 2) &&
-            (ft_countchar(av[i], 'n') == (int)(ft_strlen(av[i]) - 1)))
-        {
-            nl = 0; 
-        }
+        if (!i[1] && !ft_strncmp(argv[i[0]], "-n", 2) && \
+            (len_count(argv[i[0]], 'n') == \
+            (int)(ft_strlen(argv[i[0]]) - 1)))
+            newline = 0;
         else
         {
-            ft_putstr_fd(av[i], 1);
-            if (av[i + 1])
+            i[1] = 1;
+            ft_putstr_fd(argv[i[0]], 1);
+            if (argv[i[0] + 1])
                 ft_putchar_fd(' ', 1);
         }
-        i++;
     }
-
-    return (write(1, "\n", nl) == 2);
+    return (write(1, "\n", newline) == 2);
 }
-
-

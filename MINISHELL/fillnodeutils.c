@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 14:21:17 by inkahar           #+#    #+#             */
-/*   Updated: 2024/08/24 12:52:41 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/31 14:37:55 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int count_imposters(char *s)
     {
         singleq = (singleq + (!doubleq && s[i]== '\'')) % 2;
         doubleq = (doubleq + (!singleq && s[i]== '\"')) % 2;
-        if((s[i] == '\'' && !doubleq)|| (s[i] == '\"' && !singleq));
+        if((s[i] == '\'' && !doubleq)|| (s[i] == '\"' && !singleq))
             count++;
         i++;
     }
@@ -49,7 +49,7 @@ char *clean_trim(char *s , int singleq , int doubleq)
     {
         singleq = (singleq + (!doubleq && s[i[0]]== '\'')) % 2;
         doubleq = (doubleq + (!singleq && s[i[0]]== '\"')) % 2;
-        if((s[i[0]] != '\''  || doubleq)&& (s[i[0]] != '\"' || singleq) &&(++i[1] >=0) );
+        if((s[i[0]] != '\''  || doubleq)&& (s[i[0]] != '\"' || singleq) &&(++i[1] >=0) )
             trim[i[1]] = s[i[0]];
         i[0]++;
     }

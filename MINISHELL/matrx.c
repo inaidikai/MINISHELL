@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrx.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 16:38:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/26 08:14:23 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/31 15:02:30 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ char **m_replace(char ***old, char **new, int oi)
                 result[++i[2]] = ft_strdup(new[i[1]]);
         }
     }
-	m_free(old);
+	// m_free(old);
     *old = result;
+	// free result
     return *old;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 14:29:25 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/24 14:14:44 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/31 16:23:47 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,19 +94,27 @@ void *lexer(char *store, t_prompt *p)
     char **trimmed_args;
     t_str *list;
     
+    if (!store)
+	{
+		printf("exit\n");
+		return (NULL);
+	}
     if (store[0] != '\0')
         add_history(store);
     trimmed_args = ft_cmdtrim(store, " ");
-    free(store);
+    // free(store);
+    
     if (trimmed_args == NULL)
     {
-        chk(UNCLOSEDPARA);
-        return (0);
+        return (errno(UNCLOSEDPARA, NULL, 1), NULL);
+        // return ;
     }
+   
     if (!trimmed_args)
 		return ("");
     p = parsing(trimmed_args, p);
-    	if (p && p->cmds)
+     	printf("im in exsplit");
+    if (p && p->cmds)
 		list = p->cmds->content;
 	if (p && p->cmds && list && list->full_cmd && ft_lstsize(p->cmds) == 1)
 		p->env = mini_setenv("_", list->full_cmd[m_size(list->full_cmd) - 1], \

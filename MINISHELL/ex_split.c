@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 21:40:46 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/21 12:28:24 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/31 15:21:48 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char *expand(char *str, t_prompt *prompt)
         return NULL;
 
     ex_pa = expand_tilde(ex_val, -1, fq, mini_getenv("HOME", prompt->env, 4));
-    free(ex_val);
+    // free(ex_val);
 
     return ex_pa;
 }
@@ -39,14 +39,14 @@ static void handle_split(char **av, t_prompt *prompt, int i)
 
     m_replace(&av, splitted, i);
     i += m_size(splitted) - 1;
-    m_free(&splitted);
+    // m_free(&splitted);
 }
 
 char **ex_split(char **av, t_prompt *prompt)
 {
     int i;
     i = -1;
-	
+
     while (av && av[++i])
     {
         av[i] = expand(av[i], prompt);

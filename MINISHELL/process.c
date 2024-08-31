@@ -6,7 +6,7 @@
 /*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 18:35:21 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/26 08:15:18 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/30 20:22:04 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int execute_command(t_prompt *env, t_str *cmd_info)
 {
-	if (!is_builtin(cmd_info) && cmd_info->full_cmd)
+	if (!check_builtins(cmd_info) && cmd_info->full_cmd)
 	{
 		execve(cmd_info->full_path, cmd_info->full_cmd, env->env);
 		return -1;
@@ -26,13 +26,13 @@ int handle_builtin_commands(t_prompt *p, t_str *cmd_info, int cmd_len, t_list *c
 {
 	if (cmd_info->full_cmd && cmd_len == 3 && !ft_strncmp(*cmd_info->full_cmd, "pwd", cmd_len))
 	{
-		return cmd_pwd();
+		return( cmd_pwd());
 	}
-	else if (is_builtin(cmd_info) && cmd_info->full_cmd && cmd_len == 4 && !ft_strncmp(*cmd_info->full_cmd, "echo", cmd_len))
+	else if (check_builtins(cmd_info) && cmd_info->full_cmd && cmd_len == 4 && !ft_strncmp(*cmd_info->full_cmd, "echo", cmd_len))
 	{
 		return cmd_echo(cmd_list);
 	}
-	else if (is_builtin(cmd_info) && cmd_info->full_cmd && cmd_len == 3 && !ft_strncmp(*cmd_info->full_cmd, "env", cmd_len))
+	else if (check_builtins(cmd_info) && cmd_info->full_cmd && cmd_len == 3 && !ft_strncmp(*cmd_info->full_cmd, "env", cmd_len))
 	{
 		m_put(p->env, 1, 1);
 		return 0;
@@ -124,11 +124,11 @@ void	*check_exec(t_prompt *prompt, t_list *cmd, int fd[2])
 		dir = opendir(*info->full_cmd);
 	if (info->infile == -1 || info->outfile == -1)
 		return (NULL);
-	if ((info->full_path && access(info->full_path, X_OK) == 0) || is_builtin(info))
+	if ((info->full_path && access(info->full_path, X_OK) == 0) || check_builtins(info))
 		exec_child(prompt, cmd, fd);
-	else if (!is_builtin(info) && ((info->full_path && !access(info->full_path, F_OK)) || dir))
+	else if (!check_builtins(info) && ((info->full_path && !access(info->full_path, F_OK)) || dir))
 		g_sig = 126;
-	else if (!is_builtin(info) && info->full_cmd)
+	else if (!check_builtins(info) && info->full_cmd)
 		g_sig = 127;
 	if (dir)
 		closedir(dir);

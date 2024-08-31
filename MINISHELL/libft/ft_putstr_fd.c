@@ -6,24 +6,25 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 17:11:31 by inkahar           #+#    #+#             */
-/*   Updated: 2023/11/24 15:41:18 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/30 07:54:44 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+int	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
 
 	i = 0;
 	if (!s)
 	{
-		return ;
+		return 0;
 	}
 	while (s[i] != '\0')
 	{
 		write(fd, &s[i], 1);
 		i++;
 	}
+	return 0;
 }

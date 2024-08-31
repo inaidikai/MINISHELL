@@ -1,13 +1,16 @@
 NAME = minishell
 
-SRC = prompt.c prepare_variables.c prepare_shell.c matrx.c main.c errno.c expand_path.c  expand_val.c  lexer.c ft_spliter.c  ex_split.c int_var.c fillnode.c
+SRC = prompt.c prepare_variables.c prepare_shell.c parsing.c init_var.c in_outfiles.c here_doc.c \
+matrx.c main.c errno.c expand_path.c  expand_val.c  lexer.c ft_spliter.c  ex_split.c  fillnode.c  \
+fillnodeutils.c cmd_cd.c builtins.c cmd_export.c cmd_exit.c exec.c signals.c \
+process.c
 
 
 OBJ = $(SRC:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra 
+CFLAGS = -Wall -Werror -Wextra -g
 
 DEL = rm -rf
 

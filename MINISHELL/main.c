@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:22:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/31 14:26:43 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/31 15:31:31 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,27 @@
 
 int g_sig;
 
-
-
-void handle_int(int signum)
-{
-    if(signum == SIGINT)
-    {
-        g_sig =  1;
-        write(1, "\n", 1);
-        rl_on_new_line();
-        rl_redisplay();
-    }
-}
-
 static int start_prompt(t_prompt *p)
 {
-	char	*store;
+	// char	*store;
     char    *read;
     char **input;
     
     signal(SIGINT, handle_int);
-    signal(SIGQUIT, handle_int);
+    signal(SIGQUIT, SIG_IGN);
+    // store = "";
 	while (1)
 	{
-        store = getprompt();
-        read = readline(store);
-        free(store);
+        // store = getprompt();
+        read = readline("minishell$ ");
+        // free(store);
         if (!read)              
             break;
         input = lexer(read, p);
-        free(read);
+        // free(read);
         if (!input) 
-        {
-            free(read);
             break;
-        }
-        free(read);
+        free(input);
 	}
 	return (g_sig);
 }
@@ -84,7 +69,7 @@ static t_prompt	init_env(char **av, char **env, t_str *var)
     g_sig = 0;
     int_var(var);
     start_process(&pre_shell);
-    pre_shell = prepare_variables(pre_shell, av);
+    pre_shell = prepare_variables(pre_shell, store, av);
     return (pre_shell);
     
 }
@@ -94,12 +79,14 @@ int main(int ac, char **av, char **env)
 {
     t_prompt pre_shell;
     t_str var;
+
     (void)ac;
     
     pre_shell = init_env(av, env, &var);
     g_sig = start_prompt(&pre_shell);
     return (g_sig);
 }
+
 
 
 

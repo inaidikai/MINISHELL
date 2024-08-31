@@ -6,29 +6,30 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:41:43 by inkahar           #+#    #+#             */
-/*   Updated: 2024/08/24 22:21:41 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/31 15:21:04 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
-int dup_node(char **av)
+char **dup_node(char **av)
 {
     int i = 0;
     char **arr = NULL;
-    int n = m_size(av);
-    arr = malloc(sizeof(char **)*n+1);
+    int n = 0;
+    n = m_size(av);
+    arr = malloc(sizeof(char **) * n + 1);
     while(av[i])
     {
         arr[i] = ft_strdup(av[i]);
-       if(!arr[i])
+        if(!arr[i])
         {
             return(NULL);
         }
         i++;
     }
-    arr[i] = '/0';
+    arr[i] = "\0";
     return(arr);
 }
 static t_str	*get_params(t_str *node, char **a[2], int *i)
@@ -45,7 +46,7 @@ static t_str	*get_params(t_str *node, char **a[2], int *i)
 		else if (a[0][*i][0] == '<')
 			node = get_infile1(node, a[1], i);
 		else if (a[0][*i][0] != '|')
-			node->full_cmd = ft_extend_matrix(node->full_cmd, a[1][*i]);
+			node->full_cmd = m_exdup(node->full_cmd, a[1][*i]);
 		else
 		{
 			errno(PIPENDERR, NULL, 2);
@@ -58,7 +59,7 @@ static t_str	*get_params(t_str *node, char **a[2], int *i)
 	return (node);
 }
 
-int gettrimmed(char **av)
+char **gettrimmed(char **av)
 {
     char **temp = NULL;
     char *arr;
@@ -79,14 +80,14 @@ static t_list	*stop_fill(t_list *cmds, char **args, char **temp)
 	m_free(&args);
 	return (NULL);
 }
-
-int fillnode(char **av, int i)
+t_list *fillnode(char **av, int i)
 {
     t_list *cmd[2];
     char **temp[2];
 
     cmd[0] = NULL;
     temp[1] = gettrimmed(av);
+   
     while(av[++i])
     {
         cmd[1] = ft_lstlast(cmd[0]);
