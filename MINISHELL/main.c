@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:22:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/26 09:53:53 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/31 14:26:43 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static t_prompt	init_env(char **av, char **env, t_str *var)
     pre_shell.env = dup_env(env);
     g_sig = 0;
     int_var(var);
-    start_process(&prompt);
+    start_process(&pre_shell);
     pre_shell = prepare_variables(pre_shell, av);
     return (pre_shell);
     
