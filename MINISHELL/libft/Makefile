@@ -43,16 +43,10 @@ ft_lstdelone.c\
 ft_lstclear.c\
 ft_lstiter.c\
 ft_lstmap.c\
-
-
-BONUS = 
 ft_toupper.c \
-ft_tolower.c \
+ft_tolower.c
 
 OBJ = $(SRC:.c=.o)
-SRC_BONUS = ft_lstnew.c ft_lstsize.c ft_lstlast.c ft_lstdelone.c ft_lstclear.c\
-ft_lstadd_back.c ft_lstadd_front.c ft_lstiter.c ft_lstmap.c
-OBJ_BONUS = $(SRC_BONUS:.c=.o)
 
 CC = cc
 
@@ -70,15 +64,12 @@ $(NAME): $(OBJ)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-bonus: $(OBJ_BONUS)
-	@$(AR) $(NAME) $(OBJ_BONUS)
-
 clean:
-	$(DEL) $(OBJ) $(OBJ_BONUS)
+	$(DEL) $(OBJ)
 
 fclean: clean
-	$(DEL) $(NAME) $(bonus)
+	$(DEL) $(NAME)
 
 re: fclean all
 
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re

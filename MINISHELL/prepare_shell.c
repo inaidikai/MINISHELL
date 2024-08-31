@@ -6,48 +6,36 @@
 /*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 12:30:38 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/26 08:05:01 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/31 12:21:53 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-static int	ft_size(char **store)
+char	**dup_env(char **enpv)
 {
-	int	size;
-
-	size = 0;
-	while (store[size])
-		size++;
-	return (size);
-}
-
-char	**dup_env(char **envp)
-{
-	char	**dup;
+	char	**out;
+	int		n_rows;
 	int		i;
-	int		size;
 
-	size = ft_size(envp);
-	dup = (char **)malloc(sizeof(char *) * (size + 1));
-	if (!dup)
-		return (NULL);
 	i = 0;
-	while (i < size)
+	n_rows = m_size(enpv);
+	out = malloc(sizeof(char *) * (n_rows + 1));
+	if (!out)
+		return (NULL);
+	while (enpv[i])
 	{
-		dup[i] = ft_strdup(envp[i]);
-		if (!dup[i])
+		out[i] = ft_strdup(enpv[i]);
+		if (!out[i])
 		{
-			while (--i >= 0)
-				free(dup[i]);
-			free(dup);
+			m_free(&out);
 			return (NULL);
 		}
 		i++;
 	}
-	dup[i] = NULL;
-	return (dup);
+	out[i] = NULL;
+	return (out);
 }
 int	ft_strchr_i(const char *s, int c)
 {

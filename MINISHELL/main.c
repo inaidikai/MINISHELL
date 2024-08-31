@@ -6,14 +6,13 @@
 /*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:22:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/30 20:43:17 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/08/31 12:50:51 by aymohamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int g_sig;
-
 
 static int start_prompt(t_prompt *p)
 {
@@ -22,7 +21,7 @@ static int start_prompt(t_prompt *p)
     char **input;
     
     signal(SIGINT, handle_int);
-    signal(SIGQUIT, handle_int);
+    signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
         store = getprompt();
@@ -33,11 +32,8 @@ static int start_prompt(t_prompt *p)
         input = lexer(read, p);
         free(read);
         if (!input) 
-        {
-            free(read);
             break;
-        }
-        free(read);
+        free(input);
 	}
 	return (g_sig);
 }
@@ -72,7 +68,7 @@ static t_prompt	init_env(char **av, char **env, t_str *var)
     g_sig = 0;
     int_var(var);
     start_process(&pre_shell);
-    pre_shell = prepare_variables(pre_shell, av);
+    pre_shell = prepare_variables(pre_shell, store, av);
     return (pre_shell);
     
 }
@@ -82,12 +78,14 @@ int main(int ac, char **av, char **env)
 {
     t_prompt pre_shell;
     t_str var;
+
     (void)ac;
     
     pre_shell = init_env(av, env, &var);
     g_sig = start_prompt(&pre_shell);
     return (g_sig);
 }
+
 
 
 
