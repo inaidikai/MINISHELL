@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 14:29:25 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/31 16:23:47 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/01 03:13:46 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,15 +101,12 @@ void *lexer(char *store, t_prompt *p)
 	}
     if (store[0] != '\0')
         add_history(store);
+    else 
+        return (NULL);
     trimmed_args = ft_cmdtrim(store, " ");
-    // free(store);
-    
+    //  free(store);
     if (trimmed_args == NULL)
-    {
-        return (errno(UNCLOSEDPARA, NULL, 1), NULL);
-        // return ;
-    }
-   
+        errno(UNCLOSEDPARA, NULL, 1);
     if (!trimmed_args)
 		return ("");
     p = parsing(trimmed_args, p);

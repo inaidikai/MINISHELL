@@ -3,40 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_shell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 12:30:38 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/31 12:21:53 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/09/01 03:01:21 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-char	**dup_env(char **enpv)
-{
-	char	**out;
-	int		n_rows;
-	int		i;
+char **dup_env(char **enpv) {
+    char **out;
+    int n_rows;
+    int i;
 
-	i = 0;
-	n_rows = m_size(enpv);
-	out = malloc(sizeof(char *) * (n_rows + 1));
-	if (!out)
-		return (NULL);
-	while (enpv[i])
-	{
-		out[i] = ft_strdup(enpv[i]);
-		if (!out[i])
-		{
-			m_free(&out);
-			return (NULL);
-		}
-		i++;
-	}
-	out[i] = NULL;
-	return (out);
+    i = 0;
+    n_rows = m_size(enpv);
+    out = malloc(sizeof(char *) * (n_rows + 1));
+    if (!out)
+        return NULL;
+
+    while (enpv[i]) {
+        out[i] = ft_strdup(enpv[i]);
+        if (!out[i]) {
+            // Free all previously allocated memory to prevent leaks
+            while (i > 0) {
+                free(out[--i]);
+            }
+            free(out);
+            return NULL;
+        }
+        i++;
+    }
+    out[i] = NULL;
+    return out;
 }
+
 int	ft_strchr_i(const char *s, int c)
 {
 	int	i;
@@ -81,6 +84,7 @@ char	**mini_setenv(char *var, char *value, char **envp, int n)
 		i++;
 	}
 	envp = m_exdup(envp, new_entry);
+	free(var);
 	free(new_entry);
 	return (envp);
 }

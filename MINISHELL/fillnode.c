@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:41:43 by inkahar           #+#    #+#             */
-/*   Updated: 2024/08/31 15:21:04 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/01 01:52:21 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,23 @@
 char **dup_node(char **av)
 {
     int i = 0;
-    char **arr = NULL;
-    int n = 0;
+    char **arr;
+    int n;
     n = m_size(av);
-    arr = malloc(sizeof(char **) * n + 1);
+    arr = malloc(sizeof(char *) * (n + 1));
+    if (!arr)
+		return (NULL);
     while(av[i])
     {
         arr[i] = ft_strdup(av[i]);
         if(!arr[i])
         {
+            m_free(&arr);
             return(NULL);
         }
         i++;
     }
-    arr[i] = "\0";
+    arr[i] = NULL;
     return(arr);
 }
 static t_str	*get_params(t_str *node, char **a[2], int *i)
@@ -46,7 +49,10 @@ static t_str	*get_params(t_str *node, char **a[2], int *i)
 		else if (a[0][*i][0] == '<')
 			node = get_infile1(node, a[1], i);
 		else if (a[0][*i][0] != '|')
+        {
+            printf("%s\n",a[0][*i]);
 			node->full_cmd = m_exdup(node->full_cmd, a[1][*i]);
+        }
 		else
 		{
 			errno(PIPENDERR, NULL, 2);
@@ -63,10 +69,9 @@ char **gettrimmed(char **av)
 {
     char **temp = NULL;
     char *arr;
-    int j  =0;
+    int j  = -1;
     temp = dup_node(av);
-    while(temp[j])
-    {
+while (temp && temp[++j])    {
         arr = clean_trim(temp[j], 0 , 0);
         free(temp[j]);
         temp[j] = arr;
@@ -94,7 +99,7 @@ t_list *fillnode(char **av, int i)
         if( i == 0|| (av[i][0] == '|' && av[i + 1] && av[i+1][0]))
         {
             i+= av[i][0] == '|';
-            ft_lstadd_back(&cmd[0], ft_lstnew(int_var));
+            ft_lstadd_back(&cmd[0], ft_lstnew(int_var()));
             cmd[1] = ft_lstlast(cmd[0]);
         }
         temp[0] = av;

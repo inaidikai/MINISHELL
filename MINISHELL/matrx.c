@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 16:38:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/31 15:02:30 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/31 22:16:00 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,72 @@ int	m_put(char **m, int nl, int fd)
 	return (count);
 }
 
-char	**m_exdup(char **matrix, char *new_entry)
+// char **m_exdup(char **in, char *newstr) {
+//     char **out;
+//     int len;
+//     int i;
+	
+// 	i = -1;
+//     if (!newstr) {
+//         return in;
+//     }
+//     len = m_size(in);
+//     // len = 2;
+//     out = malloc(sizeof(char *) * (2 + 2));
+//     if (!out) {
+//         return in; // Early return if allocation fails
+//     }
+//     out[len + 1] = NULL;
+//     for (i = 0; i < len; i++) {
+//         out[i] = ft_strdup(in[i]);
+//         if (!out[i]) {
+//             while (--i >= 0) {
+//                 free(out[i]);
+//             }
+//             free(out);
+//             return in; // Return original if duplication fails
+//         }
+//     }
+//     out[i] = ft_strdup(newstr);
+//     if (!out[i]) {
+//         while (--i >= 0) {
+//             free(out[i]);
+//         }
+//         free(out);
+//         return in;
+//     }
+//     m_free(&in); // Frees `in` after successful duplication
+//     return out;
+// }
+char	**m_exdup(char **in, char *newstr)
 {
+	char	**out;
+	int		len;
 	int		i;
-	char	**new_matrix;
-	i = 0;
-	while (matrix && matrix[i])
-		i++;
-	new_matrix = (char **)malloc(sizeof(char *) * (i + 2));
-	if (!new_matrix)
-		return (NULL);
-	i = 0;
-	while (matrix && matrix[i])
+
+	i = -1;
+	out = NULL;
+	if (!newstr)
+		return (in);
+	len = m_size(in);
+	out = malloc(sizeof(char *) * (len + 2));
+	out[len + 1] = NULL;
+	if (!out)
+		return (in);
+	while (++i < len)
 	{
-		new_matrix[i] = matrix[i];
-		i++;
+		out[i] = ft_strdup(in[i]);
+		if (!out[i])
+		{
+			m_free(&in);
+			m_free(&out);
+		}
 	}
-	new_matrix[i] = new_entry;
-	new_matrix[i + 1] = NULL;
-	if (matrix)
-		free(matrix);
-	return (new_matrix);
+	out[i] = ft_strdup(newstr);
+	m_free(&in);
+	return (out);
 }
+
 
 void	m_free(char ***m)
 {
@@ -69,39 +113,54 @@ void	m_free(char ***m)
 		*m = NULL;
 	}
 }
-int m_size(char **m)
-{
-    int i;
+// void md_free(char **m)
+// {
+// 	int i;
+// 	i = 0;
+// 	while(m )
+// }
 
-    i = 0;
-    while (m && m[i])
+int m_size(char **m) {
+    int i = 0;
+
+    // if (m[0] == NULL || m[0][0] == '\0') {
+    //     return 0;
+    // }
+	// if (!m || !m[0]) {
+    //     return 0;
+    // }
+	// printf("here");
+	
+    while (m && m[i]) {
         i++;
-    return (i);
+    }
+    return i;
 }
 
 
-char **m_replace(char ***old, char **new, int oi)
+
+char	**m_replace(char ***big, char **small, int n)
 {
-    char **result;
-    int i[3] = {-1, -1, -1};
+	char	**aux;
+	int		i[3];
 
-    if (!old || !*old || oi < 0 || oi >= m_size(*old))
-        return NULL;
-
-    result = ft_calloc(m_size(*old) + m_size(new), sizeof(char *));
-    
-    while (result && (*old)[++i[0]])
-    {
-        if (i[0] != oi)
-            result[++i[2]] = ft_strdup((*old)[i[0]]);
-        else
-        {
-            while (new && new[++i[1]])
-                result[++i[2]] = ft_strdup(new[i[1]]);
-        }
-    }
-	// m_free(old);
-    *old = result;
-	// free result
-    return *old;
+	i[0] = -1;
+	i[1] = -1;
+	i[2] = -1;
+	if (!big || !*big || n < 0 || n >= m_size(*big))
+		return (NULL);
+	aux = ft_calloc(m_size(*big) + m_size(small), sizeof(char *));
+	while (aux && big[0][++i[0]])
+	{
+		if (i[0] != n)
+			aux[++i[2]] = ft_strdup(big[0][i[0]]);
+		else
+		{
+			while (small && small[++i[1]])
+				aux[++i[2]] = ft_strdup(small[i[1]]);
+		}
+	}
+	m_free(big);
+	*big = aux;
+	return (*big);
 }

@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 19:47:12 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/31 15:14:03 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/01 01:53:44 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int	handle_builtin(t_prompt *prompt, t_list *cmd, int *is_exit, int n)
 			g_sig = cmd_unset(prompt);
 		else
 		{
-			signal(SIGINT, handle_int);
-            signal(SIGQUIT, handle_int);
+			signal(SIGINT, SIG_IGN);
+            signal(SIGQUIT, SIG_IGN);
 			exec_cmd(prompt, cmd);
 		}
 		cmd = cmd->next;

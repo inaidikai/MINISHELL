@@ -7,11 +7,11 @@ void *errno(errorcode OPCODE, char *s, int flag)
 
 	if(OPCODE == UNCLOSEDPARA)
 		printf("%s", "sister/brother u put unclosed params\n");
-	if(OPCODE == NOTDIR)
+	else if(OPCODE == NOTDIR)
 		printf("%s", "no directory");
-	if(OPCODE == NPERM)
+	else if(OPCODE == NPERM)
 		printf("%s", "no PERMISSION");
-	if(OPCODE == PIPENDERR)
+	else if(OPCODE == PIPENDERR)
 		printf("%s", "no directory");
 	else if (OPCODE == NO_CMD)
 		printf("%s", "minishell: command not found: \n");

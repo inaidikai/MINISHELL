@@ -6,17 +6,30 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:22:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/31 15:31:31 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/01 03:28:56 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int g_sig;
+static void free_env(char **env) {
+    int i = 0;
+    
+    // Iterate over each string in the array
+    while (env[i]) {
+        free(env[i]);  // Free the individual string
+        i++;
+    }
+    
+    // Free the array itself
+    free(env);
+}
+
 
 static int start_prompt(t_prompt *p)
 {
-	// char	*store;
+	char	*store;
     char    *read;
     char **input;
     
@@ -25,17 +38,18 @@ static int start_prompt(t_prompt *p)
     // store = "";
 	while (1)
 	{
-        // store = getprompt();
-        read = readline("minishell$ ");
-        // free(store);
+        store = getprompt();
+        read = readline(store);
+        free(store);
         if (!read)              
             break;
-        input = lexer(read, p);
-        // free(read);
+       input = lexer(read, p);
+        free(read);
         if (!input) 
-            break;
-        free(input);
+           break;
+        // free(input);
 	}
+    free_env(p->env);
 	return (g_sig);
 }
 static void	start_process(t_prompt *p)
@@ -58,7 +72,7 @@ static void	start_process(t_prompt *p)
 	p->pid = pid - 1;
 }
 
-static t_prompt	init_env(char **av, char **env, t_str *var)
+static t_prompt	init_env(char **av, char **env)
 {
     t_prompt pre_shell;
     char *store;
@@ -66,8 +80,8 @@ static t_prompt	init_env(char **av, char **env, t_str *var)
     store = NULL;
     pre_shell.cmds = NULL;
     pre_shell.env = dup_env(env);
+    // free(env);
     g_sig = 0;
-    int_var(var);
     start_process(&pre_shell);
     pre_shell = prepare_variables(pre_shell, store, av);
     return (pre_shell);
@@ -78,14 +92,47 @@ static t_prompt	init_env(char **av, char **env, t_str *var)
 int main(int ac, char **av, char **env)
 {
     t_prompt pre_shell;
-    t_str var;
 
     (void)ac;
     
-    pre_shell = init_env(av, env, &var);
+    pre_shell = init_env(av, env);
     g_sig = start_prompt(&pre_shell);
     return (g_sig);
 }
+// static char *mini_getprompt(void)
+// {
+//     return strdup("$minishell ");
+// }
+
+
+// int main(int ac, char **argv, char **envp)
+// {
+//     char *str;
+//     char *out;
+//     (void)ac;
+//     t_prompt prompt;
+
+//     prompt = init_env(argv, envp);
+//     while (1)
+//     {
+//         signal(SIGINT, handle_int);
+//         signal(SIGQUIT, SIG_IGN);
+//         str = mini_getprompt();
+//         if (str)
+//         {
+//             out = readline(str);
+//             free(str);
+//             if (!out)
+//                 break;
+//             if (!lexer(out, &prompt))
+//                 break;
+//             free(out);
+//         }
+//     }
+//     exit(g_sig);
+// }
+
+
 
 
 

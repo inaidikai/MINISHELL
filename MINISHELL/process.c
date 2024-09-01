@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 18:35:21 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/30 20:22:04 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/09/01 01:59:41 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,20 +97,20 @@ void	*handle_child(t_prompt *prompt, t_list *cmd, int fd[2])
 	exit(g_sig);
 }
 
+
 void exec_child(t_prompt *prompt, t_list *command, int fds[2])
 {
-    pid_t child_pid;
+	pid_t	pid;
 
-    if ((child_pid = fork()) == 0)
-    {
-        handle_child(prompt, command, fds);
-    }
-    else if (child_pid < 0)
-    {
-        close(fds[READ_END]);
-        close(fds[WRITE_END]);
-        errno(ERR_FORK, NULL, 1);
-    }
+	pid = fork();
+	if (pid < 0)
+	{
+		close(fds[READ_END]);
+		close(fds[WRITE_END]);
+		errno(ERR_FORK, NULL, 1);
+	}
+	else if (!pid)
+		handle_child(prompt, command, fds);
 }
 
 void	*check_exec(t_prompt *prompt, t_list *cmd, int fd[2])

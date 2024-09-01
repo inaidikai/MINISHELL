@@ -6,105 +6,70 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 10:08:23 by inkahar           #+#    #+#             */
-/*   Updated: 2023/11/24 19:41:01 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/08/31 23:03:09 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	counter(char const *s, char c)
+static int	ft_count_words(const char *s, char c)
 {
 	int	count;
-	int	len;
 	int	i;
-	int	j;
 
 	i = 0;
-	len = ft_strlen(s);
-	j = 0;
 	count = 0;
-	while (i < len)
+	while (s[i] != '\0')
 	{
-		while (i < len && s[i] == c)
-			i++;
-		j = i;
-		while (i < len && s[i] != c)
-			i++;
-		if (i > j)
+		if (s[i] != c)
+		{
 			count++;
+			while (s[i] != c && s[i] != '\0')
+				i++;
+		}
+		else
+			i++;
 	}
 	return (count);
 }
 
-static char	*ft_strncpy(char *dest, const char *src, unsigned int n)
+static char	**ft_fill_array(char **aux, char const *s, char c)
 {
-	unsigned int	i;
+	size_t	i;
+	size_t	j;
+	int		k;
+	size_t	s_len;
 
 	i = 0;
-	while (src[i] != '\0' && i < n)
+	k = 0;
+	s_len = ft_strlen(s);
+	while (s[i])
 	{
-		dest[i] = src[i];
-		i++;
-	}
-	while (i < n)
-	{
-		dest[i] = '\0';
-		i++;
-	}
-	return (dest);
-}
-
-static void	suby(char **str, char const *s, char c)
-{
-	int	str_i;
-	int	start;
-	int	i;
-	int	len;
-
-	i = 0;
-	start = 0;
-	str_i = 0;
-	len = ft_strlen(s);
-	while (i < len)
-	{
-		while (i < len && s[i] == c)
+		while (s[i] == c && s[i] != '\0')
 			i++;
-		start = i;
-		while (i < len && s[i] != c)
+		j = i;
+		while (s[i] != c && s[i] != '\0')
 			i++;
-		if (i > start)
-		{
-			str[str_i] = malloc(i - start + 1);
-			ft_strncpy(str[str_i], &s[start], i - start);
-			str[str_i][i - start] = '\0';
-			str_i++;
-		}
+		if (j >= s_len)
+			aux[k++] = "\0";
+		else
+			aux[k++] = ft_substr(s, j, i - j);
 	}
+	return (aux);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**str;
-	int		count;
-	int		i;
+	char	**aux;
+	int		nwords;
 
 	if (!s)
 		return (NULL);
-	count = counter(s, c);
-	str = (char **)malloc(sizeof(char *) * (count + 1));
-	if (!str)
+	nwords = ft_count_words(s, c);
+	aux = malloc((nwords + 1) * sizeof(char *));
+	if (aux == NULL)
 		return (NULL);
-	str[count] = NULL;
-	i = 0;
-	suby(str, s, c);
-	while (i > 0)
-	{
-		if (str[i] == NULL)
-		{
-			free(str[i]);
-			return (NULL);
-		}
-		i--;
-	}
-	return (str);
+	aux = ft_fill_array(aux, s, c);
+	aux[nwords] = NULL;
+	return (aux);
 }

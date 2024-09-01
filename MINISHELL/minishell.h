@@ -55,19 +55,19 @@ t_prompt	prepare_variables(t_prompt prompt,char *store, char **av);
 char		*getprompt(void);
 char		**mini_setenv(char *var, char *value, char **envp, int n);
 char		*mini_getenv(char *var, char **envp, int n);
-char		**m_exdup(char **matrix, char *new_entry);
+char	**m_exdup(char **in, char *newstr);
 int			ft_strchr_i(const char *s, int c);
-char 		*expand_val(char *str, int i, int fq[2], t_prompt *prompt);
-char 		*expand_tilde(char *str, int i, int fq[2], char *home_dir);
+// char 		*expand_val(char *str, int i, int fq[2], t_prompt *prompt);
+// char 		*expand_tilde(char *str, int i, int fq[2], char *home_dir);
 void		*errno(errorcode OPCODE, char *s, int flag);
 void		*lexer(char *store, t_prompt *p);
 char		**cmdsubsplit(char const *s, char *set);
-char 		**m_replace(char ***old, char **new, int oi);
+char	**m_replace(char ***big, char **small, int n);
 int 		m_size(char **m);
 void		m_free(char ***m);
 char		**dup_node(char **av);
-char 		**ex_split(char **av, t_prompt *prompt);
-void 		int_var(t_str *var);
+// char 		**ex_split(char **av, t_prompt *prompt);
+t_str 		*int_var(void);
 t_list  	*fillnode(char **av, int i);
 void		*parsing(char **av, t_prompt *p);
 
@@ -97,4 +97,9 @@ void reset_signals_to_default(void);
 
 void	*check_exec(t_prompt *prompt, t_list *cmd, int fd[2]);
 
+
+char	*expand_path(char *str, int i, int quotes[2], char *var);
+char	*expand_vars(char *str, int i, int quotes[2], t_prompt *prompt);
+char	**ex_split(char **args, t_prompt *prompt);
+int	ft_strchars_i(const char *s, char *set);
 #endif
