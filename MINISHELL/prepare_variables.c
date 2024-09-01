@@ -12,53 +12,80 @@
 
 #include "minishell.h"
 
-static void	set_pwd(t_prompt *prompt, char *store)
-{
-	store = getcwd(NULL, 0);
-	prompt->env = mini_setenv("PWD", store, prompt->env, 3);
-	free(store);
-}
+// static void	set_pwd(t_prompt *prompt, char *store)
+// {
+// 	store = getcwd(NULL, 0);
+// 	prompt->env = mini_setenv("PWD", store, prompt->env, 3);
+// 	free(store);
+// }
 
-static void	set_shlvl(t_prompt *prompt, char *store)
+// static void	set_shlvl(t_prompt *prompt, char *store)
+// {
+// 	char	*num;
+
+// 	store = mini_getenv("SHLVL", prompt->env, 5);
+// 	if (!store || ft_atoi(store) <= 0)
+// 		num = ft_strdup("1");
+// 	else
+// 		num = ft_itoa(ft_atoi(store) + 1);
+// 	free(store);
+// 	prompt->env = mini_setenv("SHLVL", num, prompt->env, 5);
+// 	free(num);
+// }
+
+// static void	set_path(t_prompt *prompt, char *store)
+// {
+// 	store = mini_getenv("PATH", prompt->env, 4);
+// 	if (!store)
+// 	{
+// 		prompt->env = mini_setenv("PATH", 
+// 		"/usr/local/sbin:/usr/local/bin:/usr/bin:/bin", prompt->env, 4);
+// 	}
+// 	free(store);
+// }
+
+// static void	set_underscore(t_prompt *prompt, char *argv, char *store)
+// {
+// 	store = mini_getenv("_", prompt->env, 1);
+// 	if (!store)
+// 	{
+// 		prompt->env = mini_setenv("_", argv, prompt->env, 1);
+// 	}
+// 	free(store);
+// }
+
+// t_prompt	prepare_variables(t_prompt prompt, char *store, char **av)
+// {
+// 	set_pwd(&prompt ,store);
+// 	set_shlvl(&prompt, store);
+// 	set_path(&prompt, store);
+// 	set_underscore(&prompt, av[0], store);
+// 	return (prompt);
+// }
+
+t_prompt	prepare_variables(t_prompt prompt, char *str, char **argv)
 {
 	char	*num;
 
-	store = mini_getenv("SHLVL", prompt->env, 5);
-	if (!store || ft_atoi(store) <= 0)
+	str = getcwd(NULL, 0);
+	prompt.env = mini_setenv("PWD", str, prompt.env, 3);
+	free(str);
+	str = mini_getenv("SHLVL", prompt.env, 5);
+	if (!str || ft_atoi(str) <= 0)
 		num = ft_strdup("1");
 	else
-		num = ft_itoa(ft_atoi(store) + 1);
-	free(store);
-	prompt->env = mini_setenv("SHLVL", num, prompt->env, 5);
+		num = ft_itoa(ft_atoi(str) + 1);
+	free(str);
+	prompt.env = mini_setenv("SHLVL", num, prompt.env, 5);
 	free(num);
-}
-
-static void	set_path(t_prompt *prompt, char *store)
-{
-	store = mini_getenv("PATH", prompt->env, 4);
-	if (!store)
-	{
-		prompt->env = mini_setenv("PATH", \
-		"/usr/local/sbin:/usr/local/bin:/usr/bin:/bin", prompt->env, 4);
-	}
-	free(store);
-}
-
-static void	set_underscore(t_prompt *prompt, char *argv, char *store)
-{
-	store = mini_getenv("_", prompt->env, 1);
-	if (!store)
-	{
-		prompt->env = mini_setenv("_", argv, prompt->env, 1);
-	}
-	free(store);
-}
-
-t_prompt	prepare_variables(t_prompt prompt, char *store, char **av)
-{
-	set_pwd(&prompt ,store);
-	set_shlvl(&prompt, store);
-	set_path(&prompt, store);
-	set_underscore(&prompt, av[0], store);
+	str = mini_getenv("PATH", prompt.env, 4);
+	if (!str)
+		prompt.env = mini_setenv("PATH", \
+		"/usr/local/sbin:/usr/local/bin:/usr/bin:/bin", prompt.env, 4);
+	free(str);
+	str = mini_getenv("_", prompt.env, 1);
+	if (!str)
+		prompt.env = mini_setenv("_", argv[0], prompt.env, 1);
+	free(str);
 	return (prompt);
 }

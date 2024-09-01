@@ -38,7 +38,7 @@ void	*parsing(char **av, t_prompt *p)
 	int	i;
 
 	f_exit = 0;
-	p->cmds = fillnode(ex_split(av, p), -1);
+	p->cmds = fill_nodes(ex_split(av, p), -1);
 	if (!p->cmds)
 		return (p);
 	i = ft_lstsize(p->cmds);

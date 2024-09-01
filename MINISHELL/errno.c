@@ -1,29 +1,28 @@
 #include "minishell.h"
 void *errno(errorcode OPCODE, char *s, int flag)
 {
-	flag = g_sig;
-	(void)*s; 
-	(void)flag; 
+	g_sig = flag;
 
 	if(OPCODE == UNCLOSEDPARA)
-		printf("%s", "sister/brother u put unclosed params\n");
+		ft_putstr_fd("sister/brother u put unclosed params\n", 2);
 	else if(OPCODE == NOTDIR)
-		printf("%s", "no directory");
+		ft_putstr_fd("no directory", 2);
 	else if(OPCODE == NPERM)
-		printf("%s", "no PERMISSION");
+		ft_putstr_fd("no PERMISSION", 2);
 	else if(OPCODE == PIPENDERR)
-		printf("%s", "no directory");
+		ft_putstr_fd("no directory", 2);
 	else if (OPCODE == NO_CMD)
-		printf("%s", "minishell: command not found: \n");
+		ft_putstr_fd("minishell: command not found: \n", 2);
 	else if (OPCODE == CHECK_DIR)
-		printf("%s", "minishell: Is a directory: ");
+		ft_putstr_fd("minishell: Is a directory: ", 2);
 	else if (OPCODE == ERR_PIPE)
-		printf( "%s", "minishell: error creating pipe\n");
+		ft_putstr_fd( "minishell: error creating pipe\n", 2);
 	else if (OPCODE == ERR_FORK)
-		printf("%s", "minishell: fork failed\n");
+		ft_putstr_fd("minishell: fork failed\n", 2);
 	else if (OPCODE == ERR_DUP)
-		printf("%s", "minishell: dup2 failed\n");
+		ft_putstr_fd("minishell: dup2 failed\n", 2);
 	else if (OPCODE == NOFILE_DIR)
-		printf("%s", "minishell: SEROFR");
+		ft_putstr_fd("minishell: SEROFR", 2);
+	ft_putendl_fd(s, 2);
 	return (NULL);
 }   

@@ -13,27 +13,29 @@
 
 #include "minishell.h"
 
-char **dup_node(char **av)
+char	**m_dup(char **m)
 {
-    int i = 0;
-    char **arr;
-    int n;
-    n = m_size(av);
-    arr = malloc(sizeof(char *) * (n + 1));
-    if (!arr)
+	char	**out;
+	int		n_rows;
+	int		i;
+
+	i = 0;
+	n_rows = m_size(m);
+	out = malloc(sizeof(char *) * (n_rows + 1));
+	if (!out)
 		return (NULL);
-    while(av[i])
-    {
-        arr[i] = ft_strdup(av[i]);
-        if(!arr[i])
-        {
-            m_free(&arr);
-            return(NULL);
-        }
-        i++;
-    }
-    arr[i] = NULL;
-    return(arr);
+	while (m[i])
+	{
+		out[i] = ft_strdup(m[i]);
+		if (!out[i])
+		{
+			m_free(&out);
+			return (NULL);
+		}
+		i++;
+	}
+	out[i] = NULL;
+	return (out);
 }
 static t_str	*get_params(t_str *node, char **a[2], int *i)
 {
@@ -49,10 +51,7 @@ static t_str	*get_params(t_str *node, char **a[2], int *i)
 		else if (a[0][*i][0] == '<')
 			node = get_infile1(node, a[1], i);
 		else if (a[0][*i][0] != '|')
-        {
-            printf("%s\n",a[0][*i]);
 			node->full_cmd = m_exdup(node->full_cmd, a[1][*i]);
-        }
 		else
 		{
 			errno(PIPENDERR, NULL, 2);
@@ -64,20 +63,23 @@ static t_str	*get_params(t_str *node, char **a[2], int *i)
 	*i = -2;
 	return (node);
 }
-
-char **gettrimmed(char **av)
+static char	**get_trimmed(char **args)
 {
-    char **temp = NULL;
-    char *arr;
-    int j  = -1;
-    temp = dup_node(av);
-while (temp && temp[++j])    {
-        arr = clean_trim(temp[j], 0 , 0);
-        free(temp[j]);
-        temp[j] = arr;
-    }
-    return(temp);
+	char	**temp;
+	char	*aux;
+	int		j;
+
+	j = -1;
+	temp = m_dup(args);
+	while (temp && temp[++j])
+	{
+		aux = clean_trim(temp[j], 0, 0);
+		free(temp[j]);
+		temp[j] = aux;
+	}
+	return (temp);
 }
+
 static t_list	*stop_fill(t_list *cmds, char **args, char **temp)
 {
 	ft_lstclear(&cmds, free_content);
@@ -85,31 +87,30 @@ static t_list	*stop_fill(t_list *cmds, char **args, char **temp)
 	m_free(&args);
 	return (NULL);
 }
-t_list *fillnode(char **av, int i)
+t_list	*fill_nodes(char **args, int i)
 {
-    t_list *cmd[2];
-    char **temp[2];
+	t_list	*cmds[2];
+	char	**temp[2];
 
-    cmd[0] = NULL;
-    temp[1] = gettrimmed(av);
-   
-    while(av[++i])
-    {
-        cmd[1] = ft_lstlast(cmd[0]);
-        if( i == 0|| (av[i][0] == '|' && av[i + 1] && av[i+1][0]))
-        {
-            i+= av[i][0] == '|';
-            ft_lstadd_back(&cmd[0], ft_lstnew(int_var()));
-            cmd[1] = ft_lstlast(cmd[0]);
-        }
-        temp[0] = av;
-        cmd[1]->content = get_params(cmd[1]->content, temp, &i);
-        if (i < 0)
-			return (stop_fill(cmd[0], av, temp[1]));
-		if (!av[i])
-			break ; 
+	cmds[0] = NULL;
+	temp[1] = get_trimmed(args);
+	while (args[++i])
+	{
+		cmds[1] = ft_lstlast(cmds[0]);
+		if (i == 0 || (args[i][0] == '|' && args[i + 1] && args[i + 1][0]))
+		{
+			i += args[i][0] == '|';
+			ft_lstadd_back(&cmds[0], ft_lstnew(int_var()));
+			cmds[1] = ft_lstlast(cmds[0]);
+		}
+		temp[0] = args;
+		cmds[1]->content = get_params(cmds[1]->content, temp, &i);
+		if (i < 0)
+			return (stop_fill(cmds[0], args, temp[1]));
+		if (!args[i])
+			break ;
 	}
 	m_free(&temp[1]);
-	m_free(&av);
-	return (cmd[0]);
+	m_free(&args);
+	return (cmds[0]);
 }

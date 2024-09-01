@@ -13,32 +13,31 @@
 #include "minishell.h"
 
 
-char **dup_env(char **enpv) {
-    char **out;
-    int n_rows;
-    int i;
+char	**m_env(char **m)
+{
+	char	**out;
+	int		n_rows;
+	int		i;
 
-    i = 0;
-    n_rows = m_size(enpv);
-    out = malloc(sizeof(char *) * (n_rows + 1));
-    if (!out)
-        return NULL;
-
-    while (enpv[i]) {
-        out[i] = ft_strdup(enpv[i]);
-        if (!out[i]) {
-            // Free all previously allocated memory to prevent leaks
-            while (i > 0) {
-                free(out[--i]);
-            }
-            free(out);
-            return NULL;
-        }
-        i++;
-    }
-    out[i] = NULL;
-    return out;
+	i = 0;
+	n_rows = m_size(m);
+	out = malloc(sizeof(char *) * (n_rows + 1));
+	if (!out)
+		return (NULL);
+	while (m[i])
+	{
+		out[i] = ft_strdup(m[i]);
+		if (!out[i])
+		{
+			m_free(&out);
+			return (NULL);
+		}
+		i++;
+	}
+	out[i] = NULL;
+	return (out);
 }
+
 
 int	ft_strchr_i(const char *s, int c)
 {
@@ -59,33 +58,30 @@ int	ft_strchr_i(const char *s, int c)
 
 char	**mini_setenv(char *var, char *value, char **envp, int n)
 {
-	int		i;
-	char	*new_var;
-	char	*new_entry;
+	int		i[2];
+	char	*aux[2];
+
 	if (n < 0)
 		n = ft_strlen(var);
-	new_var = ft_strjoin(var, "=");
-	new_entry = ft_strjoin(new_var, value);
-	free(new_var);
-	i = 0;
-	while (envp && envp[i])
+	i[0] = -1;
+	aux[0] = ft_strjoin(var, "=");
+	aux[1] = ft_strjoin(aux[0], value);
+	free(aux[0]);
+	while (!ft_strchr(var, '=') && envp && envp[++i[0]])
 	{
-		int compare_length = n;
-		int equal_pos = ft_strchr_i(envp[i], '=');
-		if (compare_length < equal_pos)
-			compare_length = equal_pos;
-		if (!ft_strncmp(envp[i], var, compare_length))
+		i[1] = n;
+		if (i[1] < ft_strchr_i(envp[i[0]], '='))
+			i[1] = ft_strchr_i(envp[i[0]], '=');
+		if (!ft_strncmp(envp[i[0]], var, i[1]))
 		{
-			char *old_entry = envp[i];
-			envp[i] = new_entry;
-			free(old_entry);
+			aux[0] = envp[i[0]];
+			envp[i[0]] = aux[1];
+			free(aux[0]);
 			return (envp);
 		}
-		i++;
 	}
-	envp = m_exdup(envp, new_entry);
-	free(var);
-	free(new_entry);
+	envp = m_exdup(envp, aux[1]);
+	free(aux[1]);
 	return (envp);
 }
 

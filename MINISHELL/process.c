@@ -12,74 +12,48 @@
 
 #include "minishell.h"
 
-int execute_command(t_prompt *env, t_str *cmd_info)
+void	child_builtin(t_prompt *prompt, t_str *n, int l, t_list *cmd)
 {
-	if (!check_builtins(cmd_info) && cmd_info->full_cmd)
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	if (!check_builtins(n) && n->full_cmd)
+		execve(n->full_path, n->full_cmd, prompt->env);
+	else if (n->full_cmd && !ft_strncmp(*n->full_cmd, "pwd", l) \
+		&& l == 3)
+		g_sig = cmd_pwd();
+	else if (check_builtins(n) && n->full_cmd && \
+		!ft_strncmp(*n->full_cmd, "echo", l) && l == 4)
+		g_sig = cmd_echo(cmd);
+	else if (check_builtins(n) && n->full_cmd && \
+		!ft_strncmp(*n->full_cmd, "env", l) && l == 3)
 	{
-		execve(cmd_info->full_path, cmd_info->full_cmd, env->env);
-		return -1;
-	}
-	return 0;
-}
-
-int handle_builtin_commands(t_prompt *p, t_str *cmd_info, int cmd_len, t_list *cmd_list)
-{
-	if (cmd_info->full_cmd && cmd_len == 3 && !ft_strncmp(*cmd_info->full_cmd, "pwd", cmd_len))
-	{
-		return( cmd_pwd());
-	}
-	else if (check_builtins(cmd_info) && cmd_info->full_cmd && cmd_len == 4 && !ft_strncmp(*cmd_info->full_cmd, "echo", cmd_len))
-	{
-		return cmd_echo(cmd_list);
-	}
-	else if (check_builtins(cmd_info) && cmd_info->full_cmd && cmd_len == 3 && !ft_strncmp(*cmd_info->full_cmd, "env", cmd_len))
-	{
-		m_put(p->env, 1, 1);
-		return 0;
-	}
-	return -1;
-}
-
-void process_builtin(t_prompt *env, t_str *cmd_info, int cmd_len, t_list *cmd_list)
-{
-	reset_signals_to_default();
-
-	if (execute_command(env, cmd_info) == 0)
-	{
-		int status = handle_builtin_commands(env, cmd_info, cmd_len, cmd_list);
-		if (status != -1)
-		{
-			g_sig = status;
-		}
+		m_put(prompt->env, 1, 1);
+		g_sig = 0;
 	}
 }
-
 static void	*redirect(t_list *command, int pipes[2])
 {
-	t_str	*info = command->content;
+	t_str	*node;
 
-	if (info->infile != STDIN_FILENO)
+	node = command->content;
+	if (node->infile != STDIN_FILENO)
 	{
-		if (dup2(info->infile, STDIN_FILENO) == -1)
+		if (dup2(node->infile, STDIN_FILENO) == -1)
 			return (errno(ERR_DUP, NULL, 1));
-		close(info->infile);
+		close(node->infile);
 	}
-
-	if (info->outfile != STDOUT_FILENO)
+	if (node->outfile != STDOUT_FILENO)
 	{
-		if (dup2(info->outfile, STDOUT_FILENO) == -1)
+		if (dup2(node->outfile, STDOUT_FILENO) == -1)
 			return (errno(ERR_DUP, NULL, 1));
-		close(info->outfile);
+		close(node->outfile);
 	}
-	else if (command->next)
-	{
-		if (dup2(pipes[WRITE_END], STDOUT_FILENO) == -1)
-			return (errno(ERR_DUP, NULL, 1));
-	}
-
+	else if (command->next && dup2(pipes[WRITE_END], STDOUT_FILENO) == -1)
+		return (errno(ERR_DUP, NULL, 1));
 	close(pipes[WRITE_END]);
-	return "";
+	return ("");
 }
+
 
 void	*handle_child(t_prompt *prompt, t_list *cmd, int fd[2])
 {
@@ -92,7 +66,7 @@ void	*handle_child(t_prompt *prompt, t_list *cmd, int fd[2])
 		l = ft_strlen(*info->full_cmd);
 	redirect(cmd, fd);
 	close(fd[READ_END]);
-	process_builtin(prompt, info, l, cmd);
+	child_builtin(prompt, info, l, cmd);
 	ft_lstclear(&prompt->cmds, free_content);
 	exit(g_sig);
 }

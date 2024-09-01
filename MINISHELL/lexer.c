@@ -101,16 +101,15 @@ void *lexer(char *store, t_prompt *p)
 	}
     if (store[0] != '\0')
         add_history(store);
-    else 
-        return (NULL);
     trimmed_args = ft_cmdtrim(store, " ");
-    //  free(store);
-    if (trimmed_args == NULL)
+    free(store);
+    if (!trimmed_args)
         errno(UNCLOSEDPARA, NULL, 1);
     if (!trimmed_args)
 		return ("");
     p = parsing(trimmed_args, p);
-     	printf("im in exsplit");
+    //  m_free(&trimmed_args);
+     	// printf("im in exsplit");
     if (p && p->cmds)
 		list = p->cmds->content;
 	if (p && p->cmds && list && list->full_cmd && ft_lstsize(p->cmds) == 1)
