@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:07:19 by inkahar           #+#    #+#             */
-/*   Updated: 2024/08/31 23:04:01 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/02 22:55:55 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t d);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlen(const char *s);
 int		ft_atoi(const char *str);
 int		ft_isalnum(int c);
