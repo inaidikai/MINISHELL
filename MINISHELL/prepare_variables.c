@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_variables.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 13:24:20 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/31 12:31:02 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/09/02 14:42:21 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_prompt	prepare_variables(t_prompt prompt, char *str, char **argv)
 	char	*num;
 
 	str = getcwd(NULL, 0);
-	prompt.env = mini_setenv("PWD", str, prompt.env, 3);
+	prompt.env = mini_setenv("PWD", str, prompt.env, 3); //here
 	free(str);
 	str = mini_getenv("SHLVL", prompt.env, 5);
 	if (!str || ft_atoi(str) <= 0)
@@ -76,7 +76,7 @@ t_prompt	prepare_variables(t_prompt prompt, char *str, char **argv)
 	else
 		num = ft_itoa(ft_atoi(str) + 1);
 	free(str);
-	prompt.env = mini_setenv("SHLVL", num, prompt.env, 5);
+	prompt.env = mini_setenv("SHLVL", num, prompt.env, 5); //here
 	free(num);
 	str = mini_getenv("PATH", prompt.env, 4);
 	if (!str)
