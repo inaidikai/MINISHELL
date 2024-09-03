@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 16:38:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/31 22:16:00 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/03 14:53:10 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,16 @@ void	m_free(char ***m)
 		free(m[0]);
 		*m = NULL;
 	}
+}
+void mo_free(char **arr) {
+    int i = 0;
+    if (arr) {
+        while (arr[i]) {
+            free(arr[i]);
+            i++;
+        }
+        free(arr);
+    }
 }
 // void md_free(char **m)
 // {
