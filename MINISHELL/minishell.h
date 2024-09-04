@@ -143,7 +143,7 @@ void	child_builtin(t_prompt *prompt, t_str *n, int l, t_list *cmd);
 int	handle_builtin(t_prompt *prompt, t_list *cmd, int *is_exit, int n);
 int	m_put(char **m, int nl, int fd);
 void reset_signals_to_default(void);
-char *mini_getprompt(t_prompt prompt);
+char *mini_getprompt(void);
 void	*check_exec(t_prompt *prompt, t_list *cmd, int fd[2]);
 
 

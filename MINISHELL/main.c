@@ -111,11 +111,11 @@ int main(int ac, char **argv, char **envp)
     {
         signal(SIGINT, handle_int);
         signal(SIGQUIT, SIG_IGN);
-        str = mini_getprompt(prompt);
+        str = mini_getprompt();
         if (str)
 			out = readline(str);
-        else
-            out = readline("guest@minishell $ ");
+        // else
+        //     out = readline("guest@minishell $ ");
 		free(str);
 		if(!lexer(out, &prompt))
             break;

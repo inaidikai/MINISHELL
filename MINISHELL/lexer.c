@@ -12,32 +12,32 @@
 
 #include "minishell.h"
 
-static int	ft_count_words(const char *read, const char *set, int count[2])
+static int	ft_count_words(const char *s, char *c, int i[2])
 {
-	int	flag[2];
+	int		q[2];
 
-	flag[2] = {0, 0};
-	while (read[count[0]] != '\0')
+	q[0] = 0;
+	q[1] = 0;
+	while (s[i[0]] != '\0')
 	{
-		if (!ft_strchr(set, read[count[0]]))
+		if (!ft_strchr(c, s[i[0]]))
 		{
-			count[1]++;
-			while ((!ft_strchr(set, read[count[0]]) || flag[0] || flag[1])
-				&& read[count[0]] != '\0')
+			i[1]++;
+			while ((!ft_strchr(c, s[i[0]]) || q[0]) && s[i[0]] != '\0')
 			{
-				if (!flag[1] && read[count[0]] == '\'')
-					flag[0] = !flag[0];
-				else if (!flag[0] && read[count[0]] == '\"')
-					flag[1] = !flag[1];
-				count[0]++;
+				if (!q[1] && (s[i[0]] == '\"' || s[i[0]] == '\''))
+					q[1] = s[i[0]];
+				q[0] = (q[0] + (s[i[0]] == q[1])) % 2;
+				q[1] *= q[0] != 0;
+				i[0]++;
 			}
-			if (flag[0] || flag[1])
+			if (q[0])
 				return (-1);
 		}
 		else
-			count[0]++;//chages
+			i[0]++;
 	}
-	return (count[1]);
+	return (i[1]);
 }
 
 static char	**ft_fill_array(char **store, char const *s, char *set, int i[3])
