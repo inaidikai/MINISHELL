@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 18:35:21 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/09/01 01:59:41 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/03 17:57:08 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,14 @@ static void	*redirect(t_list *command, int pipes[2])
 	return ("");
 }
 
+static void free_env(t_prompt *p) {
+    int i = 0;
+    while (p->env[i]) {
+        free(p->env[i]);
+        i++;
+    }
+    free(p->env);
+}
 
 void	*handle_child(t_prompt *prompt, t_list *cmd, int fd[2])
 {
@@ -67,6 +75,7 @@ void	*handle_child(t_prompt *prompt, t_list *cmd, int fd[2])
 	redirect(cmd, fd);
 	close(fd[READ_END]);
 	child_builtin(prompt, info, l, cmd);
+	free_env(prompt);
 	ft_lstclear(&prompt->cmds, free_content);
 	exit(g_sig);
 }

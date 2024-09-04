@@ -6,21 +6,22 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:22:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/09/01 03:28:56 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/03 17:34:56 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int g_sig;
-// static void free_env(char **env) {
-//     int i = 0;
-//     while (env[i]) {
-//         free(env[i]);
-//         i++;
-//     }
-//     free(env);
-// }
+
+static void free_env(t_prompt *p) {
+    int i = 0;
+    while (p->env[i]) {
+        free(p->env[i]);
+        i++;
+    }
+    free(p->env);
+}
 
 
 // static int start_prompt(t_prompt *p)
@@ -119,6 +120,7 @@ int main(int ac, char **argv, char **envp)
 		if(!lexer(out, &prompt))
             break;
     }
+    free_env(&prompt);
     exit(g_sig);
 }
 

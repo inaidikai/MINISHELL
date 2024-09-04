@@ -14,8 +14,8 @@
 
 static int	ft_count_words(char *s, char *set, int count)
 {
-	int		q[2];
-	int		i;
+	int	q[2];
+	int	i;
 
 	i = 0;
 	q[0] = 0;
@@ -42,7 +42,7 @@ static int	ft_count_words(char *s, char *set, int count)
 
 static char	**ft_fill_array(char **aux, char *s, char *set, int i[3])
 {
-	int		q[2];
+	int	q[2];
 
 	q[0] = 0;
 	q[1] = 0;

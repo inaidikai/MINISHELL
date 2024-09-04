@@ -6,27 +6,28 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 19:47:12 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/09/01 01:53:44 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/04 19:48:54 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int len_count(char *s, char c)
+int	len_count(char *s, char c)
 {
- int count;
+	int	count;
 
-    if (!s)
-        return (0);
-    count = 0;
-    while (*s)
-    {
-        if (*s == c)
-            count++;
-        s++;
-    }
-    return (count);
+	if (!s)
+		return (0);
+	count = 0;
+	while (*s)
+	{
+		if (*s == c)
+			count++;
+		s++;
+	}
+	return (count);
 }
+
 int	handle_builtin(t_prompt *prompt, t_list *cmd, int *is_exit, int n)
 {
 	char	**a;
@@ -48,7 +49,7 @@ int	handle_builtin(t_prompt *prompt, t_list *cmd, int *is_exit, int n)
 		else
 		{
 			signal(SIGINT, SIG_IGN);
-            signal(SIGQUIT, SIG_IGN);
+			signal(SIGQUIT, SIG_IGN);
 			exec_cmd(prompt, cmd);
 		}
 		cmd = cmd->next;
@@ -58,15 +59,14 @@ int	handle_builtin(t_prompt *prompt, t_list *cmd, int *is_exit, int n)
 
 int	check_builtins(t_str *s)
 {
-	int		len;
+	int	len;
 
 	if (!s->full_cmd)
 		return (0);
-	if ((s->full_cmd && ft_strchr(*s->full_cmd, '/')) || (s->full_path && \
-		ft_strchr(s->full_path, '/')))
+	if ((s->full_cmd && ft_strchr(*s->full_cmd, '/')) || (s->full_path
+			&& ft_strchr(s->full_path, '/')))
 		return (0);
 	len = ft_strlen(*s->full_cmd);
-
 	if (!ft_strncmp(*s->full_cmd, "echo", len) && len == 4)
 		return (1);
 	if (!ft_strncmp(*s->full_cmd, "exit", len) && len == 4)
@@ -94,31 +94,30 @@ int	cmd_pwd(void)
 	return (0);
 }
 
-int cmd_echo(t_list *cmd)
+int	cmd_echo(t_list *cmd)
 {
- 	int     newline;
-    int     i[2];
-    char    **argv;
-    t_str  *node;
+	int		newline;
+	int		i[2];
+	char	**argv;
+	t_str	*node;
 
-    i[0] = 0;
-    i[1] = 0;
-    newline = 1;
-    node = cmd->content;
-    argv = node->full_cmd;
-    while (argv && argv[++i[0]])
-    {
-        if (!i[1] && !ft_strncmp(argv[i[0]], "-n", 2) && \
-            (len_count(argv[i[0]], 'n') == \
-            (int)(ft_strlen(argv[i[0]]) - 1)))
-            newline = 0;
-        else
-        {
-            i[1] = 1;
-            ft_putstr_fd(argv[i[0]], 1);
-            if (argv[i[0] + 1])
-                ft_putchar_fd(' ', 1);
-        }
-    }
-    return (write(1, "\n", newline) == 2);
+	i[0] = 0;
+	i[1] = 0;
+	newline = 1;
+	node = cmd->content;
+	argv = node->full_cmd;
+	while (argv && argv[++i[0]])
+	{
+		if (!i[1] && !ft_strncmp(argv[i[0]], "-n", 2) && (len_count(argv[i[0]],
+					'n') == (int)(ft_strlen(argv[i[0]]) - 1)))
+			newline = 0;
+		else
+		{
+			i[1] = 1;
+			ft_putstr_fd(argv[i[0]], 1);
+			if (argv[i[0] + 1])
+				ft_putchar_fd(' ', 1);
+		}
+	}
+	return (write(1, "\n", newline) == 2);
 }

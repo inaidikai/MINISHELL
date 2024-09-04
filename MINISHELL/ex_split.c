@@ -6,60 +6,15 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 21:40:46 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/09/01 02:44:02 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/04 20:00:13 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static char *expand(char *str, t_prompt *prompt)
-// {
-//     char *ex_val;
-//     char *ex_pa;
-//     int fq[2] = {0, 0};
-
-//     ex_val = expand_val(str, -1, fq, prompt);
-//     if (!ex_val)
-//         return NULL;
-
-//     ex_pa = expand_tilde(ex_val, -1, fq, mini_getenv("HOME", prompt->env, 4));
-//     // free(ex_val);
-
-//     return ex_pa;
-// }
-
-// static void handle_split(char **av, t_prompt *prompt, int i)
-// {
-//     char **splitted;
-// 	(void)prompt;
-
-//     splitted = cmdsubsplit(av[i], "<|>");
-//     if (!splitted)
-//         return;
-
-//     m_replace(&av, splitted, i);
-//     i += m_size(splitted) - 1;
-//     // m_free(&splitted);
-// }
-
-// char **ex_split(char **av, t_prompt *prompt)
-// {
-//     int i;
-//     i = -1;
-
-//     while (av && av[++i])
-//     {
-//         av[i] = expand(av[i], prompt);
-//         if (!av[i])
-//             return NULL;
-
-//         handle_split(av, prompt, i);
-//     }
-//     return av;
-// }
 int	ft_strchars_i(const char *s, char *set)
 {
-	int				i;
+	int	i;
 
 	i = 0;
 	if (!s)
@@ -71,7 +26,7 @@ int	ft_strchars_i(const char *s, char *set)
 		i++;
 	}
 	return (-1);
-}	
+}
 
 char	*expand_path(char *str, int i, int quotes[2], char *var)
 {
@@ -84,8 +39,8 @@ char	*expand_path(char *str, int i, int quotes[2], char *var)
 	{
 		quotes[0] = (quotes[0] + (!quotes[1] && str[i] == '\'')) % 2;
 		quotes[1] = (quotes[1] + (!quotes[0] && str[i] == '\"')) % 2;
-		if (!quotes[0] && !quotes[1] && str[i] == '~' && (i == 0 || \
-			str[i - 1] != '$'))
+		if (!quotes[0] && !quotes[1] && str[i] == '~' && (i == 0 || str[i
+					- 1] != '$'))
 		{
 			aux = ft_substr(str, 0, i);
 			path = ft_strjoin(aux, var);
@@ -113,8 +68,8 @@ static char	*get_substr_var(char *str, int i, t_prompt *prompt)
 	if (pos == -1)
 		pos = ft_strlen(str) - 1;
 	aux = ft_substr(str, 0, i - 1);
-	var = mini_getenv(&str[i], prompt->env, \
-		ft_strchars_i(&str[i], "\"\'$|>< "));
+	var = mini_getenv(&str[i], prompt->env, ft_strchars_i(&str[i],
+				"\"\'$|>< "));
 	if (!var && str[i] == '$')
 		var = ft_itoa(prompt->pid);
 	else if (!var && str[i] == '?')
@@ -136,11 +91,11 @@ char	*expand_vars(char *str, int i, int quotes[2], t_prompt *prompt)
 	{
 		quotes[0] = (quotes[0] + (!quotes[1] && str[i] == '\'')) % 2;
 		quotes[1] = (quotes[1] + (!quotes[0] && str[i] == '\"')) % 2;
-		if (!quotes[0] && str[i] == '$' && str[i + 1] && \
-			((ft_strchars_i(&str[i + 1], "/~%^{}:; ") && !quotes[1]) || \
-			(ft_strchars_i(&str[i + 1], "/~%^{}:;\"") && quotes[1])))
-			return (expand_vars(get_substr_var(str, ++i, prompt), -1, \
-				quotes, prompt));
+		if (!quotes[0] && str[i] == '$' && str[i + 1] && ((ft_strchars_i(&str[i
+							+ 1], "/~%^{}:; ") && !quotes[1])
+				|| (ft_strchars_i(&str[i + 1], "/~%^{}:;\"") && quotes[1])))
+			return (expand_vars(get_substr_var(str, ++i, prompt), -1, quotes,
+					prompt));
 	}
 	return (str);
 }

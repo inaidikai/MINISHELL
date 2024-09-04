@@ -6,10 +6,9 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:41:43 by inkahar           #+#    #+#             */
-/*   Updated: 2024/09/01 01:52:21 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/04 20:02:59 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -37,6 +36,7 @@ char	**m_dup(char **m)
 	out[i] = NULL;
 	return (out);
 }
+
 static t_str	*get_params(t_str *node, char **a[2], int *i)
 {
 	if (a[0][*i])
@@ -45,8 +45,8 @@ static t_str	*get_params(t_str *node, char **a[2], int *i)
 			node = get_outfile2(node, a[1], i);
 		else if (a[0][*i][0] == '>')
 			node = get_outfile1(node, a[1], i);
-		else if (a[0][*i][0] == '<' && a[0][*i + 1] && \
-			a[0][*i + 1][0] == '<')
+		else if (a[0][*i][0] == '<' && a[0][*i + 1] &&
+					a[0][*i + 1][0] == '<')
 			node = get_infile2(node, a[1], i);
 		else if (a[0][*i][0] == '<')
 			node = get_infile1(node, a[1], i);
@@ -63,6 +63,7 @@ static t_str	*get_params(t_str *node, char **a[2], int *i)
 	*i = -2;
 	return (node);
 }
+
 static char	**get_trimmed(char **args)
 {
 	char	**temp;
@@ -87,6 +88,7 @@ static t_list	*stop_fill(t_list *cmds, char **args, char **temp)
 	m_free(&args);
 	return (NULL);
 }
+
 t_list	*fill_nodes(char **args, int i)
 {
 	t_list	*cmds[2];

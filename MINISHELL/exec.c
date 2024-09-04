@@ -6,86 +6,12 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 22:43:25 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/31 23:18:34 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/04 20:00:38 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static char	*con_cmdpath(char *path, char *cmd)
-// {
-// 	char	*t;
-// 	char	*full_path;
-
-// 	t = ft_strjoin(path, "/");
-// 	if (!t)
-// 		return (NULL);
-// 	full_path = ft_strjoin(t, cmd);
-// 	free(t);
-// 	return (full_path);
-// }
-// static char	*find_cmd(char **e_path, char *cmd, char *full_path)
-// {
-// 	int		i;
-
-// 	full_path = NULL;
-// 	i = 0;
-// 	while (e_path && e_path[i])
-// 	{
-// 		free(full_path);
-// 		full_path = con_cmdpath(e_path[i], cmd);
-// 		if (!full_path)
-// 			return (NULL);
-// 		if (access(full_path, F_OK) == 0)
-// 			break ;
-// 		i++;
-// 	}
-// 	if (!e_path || !e_path[i])
-// 	{
-// 		free(full_path);
-// 		return (NULL);
-// 	}
-// 	return (full_path);
-// }
-
-// static DIR	*dir_open(char *cmd)
-// {
-// 	if (cmd)
-// 		return (opendir(cmd));
-// 	return (NULL);
-// }
-
-// static void	handle_full_cmd(t_str *n, char ***splits)
-// {
-// 	*splits = ft_split(*n->full_cmd, '/');
-// 	n->full_path = ft_strdup(*n->full_cmd);
-// 	if (n->full_cmd[0])
-// 	{
-// 		free(n->full_cmd[0]);
-// 		n->full_cmd[0] = ft_strdup(splits[0][m_size(*splits) - 1]);
-// 	}
-// }
-
-// static DIR	*check_cmd(t_prompt *prompt, t_list *cmd, char ***splits, char *path)
-// {
-// 	t_str	*n = cmd->content;
-// 	DIR		*dir = dir_open(*n->full_cmd);
-
-// 	if (n && n->full_cmd && ft_strchr(*n->full_cmd, '/') && !dir)
-// 		handle_full_cmd(n, splits);
-// 	else if (!check_builtins(n) && n && n->full_cmd && !dir)
-// 	{
-// 		if ((path = mini_getenv("PATH", prompt->env, 4)))
-// 		{
-// 			*splits = ft_split(path, ':');
-// 			free(path);
-// 			n->full_path = find_cmd(*splits, *n->full_cmd, n->full_path);
-// 		}
-// 		if (!n->full_path || !n->full_cmd[0] || !n->full_cmd[0][0])
-// 			errno(NO_CMD, *n->full_cmd, 127);
-// 	}
-// 	return (dir);
-// }
 static char	*find_command(char **env_path, char *cmd, char *full_path)
 {
 	char	*temp;

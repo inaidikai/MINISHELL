@@ -6,20 +6,20 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:03:19 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/26 11:23:28 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/04 19:52:21 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void handle_err(char **s[2])
+void	handle_err(char **s[2])
 {
-	DIR		*dir;
+	DIR	*dir;
 
 	dir = NULL;
 	if (s[0][1])
 		dir = opendir(s[0][1]);
-	if (!s[0][1] && s[1][0] && !s[1][0][0]) 
+	if (!s[0][1] && s[1][0] && !s[1][0][0])
 	{
 		g_sig = 1;
 		ft_putstr_fd("minishell: HOME not set\n", 2);
@@ -35,7 +35,6 @@ void handle_err(char **s[2])
 	if (s[0][1] && dir)
 		closedir(dir);
 }
-
 
 int	cmd_cd(t_prompt *p)
 {
