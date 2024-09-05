@@ -1,9 +1,21 @@
-NAME = minishell
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/09/05 15:12:22 by inkahar           #+#    #+#              #
+#    Updated: 2024/09/05 16:16:03 by inkahar          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME = hungershell
 
 SRC = prompt.c prepare_variables.c prepare_shell.c parsing.c init_var.c in_outfiles.c here_doc.c \
 matrx.c main.c errno.c lexer.c ft_spliter.c  ex_split.c  fillnode.c  \
 fillnodeutils.c cmd_cd.c builtins.c cmd_export.c cmd_exit.c exec.c signals.c \
-process.c get_next_line.c 
+process.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -16,7 +28,6 @@ DEL = rm -rf
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-# If using Homebrew on macOS for Readline
 READLINE_DIR = -L/opt/vagrant/embedded/lib
 INCLUDES = -I$(READLINE_DIR)/include/readline/readline.h
 LDFLAGS = -lreadline -lhistory

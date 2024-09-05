@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 18:35:21 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/09/03 17:57:08 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/05 15:26:25 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ void	child_builtin(t_prompt *prompt, t_str *n, int l, t_list *cmd)
 	signal(SIGQUIT, SIG_DFL);
 	if (!check_builtins(n) && n->full_cmd)
 		execve(n->full_path, n->full_cmd, prompt->env);
-	else if (n->full_cmd && !ft_strncmp(*n->full_cmd, "pwd", l) \
-		&& l == 3)
+	else if (n->full_cmd && !ft_strncmp(*n->full_cmd, "pwd", l) && l == 3)
 		g_sig = cmd_pwd();
-	else if (check_builtins(n) && n->full_cmd && \
-		!ft_strncmp(*n->full_cmd, "echo", l) && l == 4)
+	else if (check_builtins(n) && n->full_cmd \
+	&&!ft_strncmp(*n->full_cmd, "echo", l) && l == 4)
 		g_sig = cmd_echo(cmd);
-	else if (check_builtins(n) && n->full_cmd && \
-		!ft_strncmp(*n->full_cmd, "env", l) && l == 3)
+	else if (check_builtins(n) && n->full_cmd \
+	&&!ft_strncmp(*n->full_cmd, "env", l) && l == 3)
 	{
 		m_put(prompt->env, 1, 1);
 		g_sig = 0;
 	}
 }
+
 static void	*redirect(t_list *command, int pipes[2])
 {
 	t_str	*node;
@@ -54,15 +54,6 @@ static void	*redirect(t_list *command, int pipes[2])
 	return ("");
 }
 
-static void free_env(t_prompt *p) {
-    int i = 0;
-    while (p->env[i]) {
-        free(p->env[i]);
-        i++;
-    }
-    free(p->env);
-}
-
 void	*handle_child(t_prompt *prompt, t_list *cmd, int fd[2])
 {
 	t_str	*info;
@@ -80,8 +71,7 @@ void	*handle_child(t_prompt *prompt, t_list *cmd, int fd[2])
 	exit(g_sig);
 }
 
-
-void exec_child(t_prompt *prompt, t_list *command, int fds[2])
+void	exec_child(t_prompt *prompt, t_list *command, int fds[2])
 {
 	pid_t	pid;
 
@@ -107,9 +97,11 @@ void	*check_exec(t_prompt *prompt, t_list *cmd, int fd[2])
 		dir = opendir(*info->full_cmd);
 	if (info->infile == -1 || info->outfile == -1)
 		return (NULL);
-	if ((info->full_path && access(info->full_path, X_OK) == 0) || check_builtins(info))
+	if ((info->full_path && access(info->full_path, X_OK) == 0)
+		|| check_builtins(info))
 		exec_child(prompt, cmd, fd);
-	else if (!check_builtins(info) && ((info->full_path && !access(info->full_path, F_OK)) || dir))
+	else if (!check_builtins(info) && ((info->full_path \
+	&& !access(info->full_path, F_OK)) || dir))
 		g_sig = 126;
 	else if (!check_builtins(info) && info->full_cmd)
 		g_sig = 127;

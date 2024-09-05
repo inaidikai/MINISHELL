@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 22:43:25 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/09/04 20:00:38 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/05 16:35:24 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,21 +68,6 @@ static DIR	*check_cmd(t_prompt *prompt, t_list *cmd, char ***s, char *path)
 	return (dir);
 }
 
-// static void set_redir(t_list *cmd, int fd[2])
-// {
-//     if (cmd->next && !((t_str *)cmd->next->content)->infile)
-//         ((t_str *)cmd->next->content)->infile = fd[READ_END];
-//     else
-//         close(fd[READ_END]);
-// }
-
-// static void close_files(t_list *cmd)
-// {
-//     if (((t_str *)cmd->content)->infile > 2)
-//         close(((t_str *)cmd->content)->infile);
-//     if (((t_str *)cmd->content)->outfile > 2)
-//         close(((t_str *)cmd->content)->outfile);
-// }
 void	get_cmd(t_prompt *prompt, t_list *cmd, char **s, char *path)
 {
 	t_str	*n;
@@ -123,17 +108,3 @@ void	*exec_cmd(t_prompt *prompt, t_list *cmd)
 		close(((t_str *)cmd->content)->outfile);
 	return (NULL);
 }
-// void *exec_cmd(t_prompt *prompt, t_list *cmd_list)
-// {
-//     int fd[2];
-
-//     check_cmd(prompt, cmd_list, NULL, NULL);
-//     if (pipe(fd) == -1)
-//         return (errno(ERR_PIPE, NULL, 1));
-//     if (!check_exec(prompt, cmd_list, fd))
-//         return (NULL);
-//     close(fd[WRITE_END]);
-//     set_redir(cmd_list, fd);
-//     close_files(cmd_list);
-//     return (NULL);
-// }

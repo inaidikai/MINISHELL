@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 16:38:27 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/09/03 14:53:10 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/05 15:11:52 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,43 +30,6 @@ int	m_put(char **m, int nl, int fd)
 	return (count);
 }
 
-// char **m_exdup(char **in, char *newstr) {
-//     char **out;
-//     int len;
-//     int i;
-	
-// 	i = -1;
-//     if (!newstr) {
-//         return in;
-//     }
-//     len = m_size(in);
-//     // len = 2;
-//     out = malloc(sizeof(char *) * (2 + 2));
-//     if (!out) {
-//         return in; // Early return if allocation fails
-//     }
-//     out[len + 1] = NULL;
-//     for (i = 0; i < len; i++) {
-//         out[i] = ft_strdup(in[i]);
-//         if (!out[i]) {
-//             while (--i >= 0) {
-//                 free(out[i]);
-//             }
-//             free(out);
-//             return in; // Return original if duplication fails
-//         }
-//     }
-//     out[i] = ft_strdup(newstr);
-//     if (!out[i]) {
-//         while (--i >= 0) {
-//             free(out[i]);
-//         }
-//         free(out);
-//         return in;
-//     }
-//     m_free(&in); // Frees `in` after successful duplication
-//     return out;
-// }
 char	**m_exdup(char **in, char *newstr)
 {
 	char	**out;
@@ -96,58 +59,17 @@ char	**m_exdup(char **in, char *newstr)
 	return (out);
 }
 
-
-void	m_free(char ***m)
+int	m_size(char **m)
 {
 	int	i;
 
 	i = 0;
-	while (m && m[0] && m[0][i])
+	while (m && m[i])
 	{
-		free(m[0][i]);
 		i++;
 	}
-	if (m)
-	{
-		free(m[0]);
-		*m = NULL;
-	}
+	return (i);
 }
-void mo_free(char **arr) {
-    int i = 0;
-    if (arr) {
-        while (arr[i]) {
-            free(arr[i]);
-            i++;
-        }
-        free(arr);
-    }
-}
-// void md_free(char **m)
-// {
-// 	int i;
-// 	i = 0;
-// 	while(m )
-// }
-
-int m_size(char **m) {
-    int i = 0;
-
-    // if (m[0] == NULL || m[0][0] == '\0') {
-    //     return 0;
-    // }
-	// if (!m || !m[0]) {
-    //     return 0;
-    // }
-	// printf("here");
-	
-    while (m && m[i]) {
-        i++;
-    }
-    return i;
-}
-
-
 
 char	**m_replace(char ***big, char **small, int n)
 {

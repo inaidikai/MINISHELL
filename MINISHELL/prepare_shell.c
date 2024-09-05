@@ -6,12 +6,11 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 12:30:38 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/09/03 15:47:31 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/05 15:16:47 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 char	**m_env(char **m)
 {
@@ -38,7 +37,6 @@ char	**m_env(char **m)
 	return (out);
 }
 
-
 int	ft_strchr_i(const char *s, int c)
 {
 	int	i;
@@ -54,7 +52,6 @@ int	ft_strchr_i(const char *s, int c)
 		return (i);
 	return (-1);
 }
-
 
 char	**mini_setenv(char *var, char *value, char **envp, int n)
 {
@@ -80,13 +77,10 @@ char	**mini_setenv(char *var, char *value, char **envp, int n)
 			return (envp);
 		}
 	}
-	envp = m_exdup(envp, aux[1]);\
-	printf("im here \n");
+	envp = m_exdup(envp, aux[1]);
 	free(aux[1]);
 	return (envp);
 }
-
-
 
 char	*mini_getenv(char *var, char **envp, int n)
 {
