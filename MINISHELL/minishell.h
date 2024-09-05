@@ -128,6 +128,8 @@ int		get_fd(int oldfd, char *path, int flags[2]);
 int		handle_builtin(t_prompt *prompt, t_list *cmd, int *is_exit, int n);
 int 	get_here_doc(char *str[2], char *aux[2]);
 void 	free_content(void *content);
+void 	rl_replace_line (const char *s, int c);
+
 
 int cmd_exit(t_list *cmd, int *f_exit);
 int	cmd_cd(t_prompt *p);

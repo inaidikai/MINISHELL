@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_export.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aymohamm <aymohamm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:10:22 by aymohamm          #+#    #+#             */
-/*   Updated: 2024/08/24 13:25:28 by aymohamm         ###   ########.fr       */
+/*   Updated: 2024/09/05 13:52:06 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int	cmd_unset(t_prompt *prompt)
 	char	*store;
 	int		ac[2];
 
-	ac[0] = 1;
+	ac[0] = 0;
 	av = ((t_str *)prompt->cmds->content)->full_cmd;
 	if (m_size(av) >= 2)
 	{
-		while (av[ac[0]])
+		while (av[++ac[0]])
 		{
 			if (av[ac[0]][ft_strlen(av[ac[0]]) - 1] != '=')
 			{

@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:53:20 by inkahar           #+#    #+#             */
-/*   Updated: 2024/09/04 19:53:21 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/05 13:55:48 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	*errno(errorcode OPCODE, char *s, int flag)
 {
 	g_sig = flag;
+	ft_putendl_fd(s, 2);
 	if (OPCODE == UNCLOSEDPARA)
 		ft_putstr_fd("sister/brother u put unclosed params\n", 2);
 	else if (OPCODE == NOTDIR)
@@ -35,6 +36,6 @@ void	*errno(errorcode OPCODE, char *s, int flag)
 		ft_putstr_fd("minishell: dup2 failed\n", 2);
 	else if (OPCODE == NOFILE_DIR)
 		ft_putstr_fd("minishell: SEROFR", 2);
-	ft_putendl_fd(s, 2);
+	// ft_putendl_fd(s, 2);
 	return (NULL);
 }

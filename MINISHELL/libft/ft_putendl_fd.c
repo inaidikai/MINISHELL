@@ -6,7 +6,7 @@
 /*   By: inkahar <inkahar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 17:14:25 by inkahar           #+#    #+#             */
-/*   Updated: 2024/08/30 07:54:09 by inkahar          ###   ########.fr       */
+/*   Updated: 2024/09/05 13:57:41 by inkahar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	ft_putendl_fd(char *s, int fd)
 	}
 	while (s[i] != '\0')
 	{
-		write(fd, &s[i], 1);
+		write(fd, &s[i] , 1);
 		i++;
 	}
-	write(fd, "\n", 1);
+	 write(fd, " : ", 4);
 	return 0;
 }
